@@ -12,6 +12,7 @@ class IdentityConverter(object):
     def decode(cls, x):
         return x
 
+
 Codec = namedtuple('Codec', 'encoding,code,converter')
 CODE_LENGTH = 1
 CODECS = [

@@ -1,5 +1,5 @@
 ============
-py-multibase
+python-multibase
 ============
 
 
