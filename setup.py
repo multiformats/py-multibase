@@ -27,7 +27,7 @@ test_requirements = [
 ]
 
 setup(
-    name='multibase',
+    name='python-multibase',
     version='0.1.0',
     description="Multibase implementation for Python",
     long_description=readme + '\n\n' + history,
@@ -45,11 +45,6 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
-        "Programming Language :: Python :: 2",
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],

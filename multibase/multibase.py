@@ -1,8 +1,5 @@
 from collections import namedtuple
 
-from six import b
-from baseconv import base2, base16, BaseConverter
-
 from .converter import BaseStringConverter, Base16StringConverter
 
 
@@ -29,7 +26,10 @@ CODECS = [
     Codec('base58flickr', b'Z', BaseStringConverter('123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ')),
     Codec('base58btc', b'z', BaseStringConverter('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz')),
     Codec('base64', b'm', BaseStringConverter('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/')),
-    Codec('base64url', b'u', BaseStringConverter('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_', sign='$')),
+    Codec('base64url', b'u', BaseStringConverter(
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_',
+        sign='$')
+    ),
 ]
 
 CODECS_LOOKUP = {}

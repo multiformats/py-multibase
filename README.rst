@@ -3,8 +3,9 @@ py-multibase
 ============
 
 
+
 .. image:: https://img.shields.io/pypi/v/multibase.svg
-        :target: https://pypi.python.org/pypi/multibase
+        :target: https://pypi.python.org/pypi/python-multibase
 
 .. image:: https://img.shields.io/travis/dhruvbaldawa/multibase.svg
         :target: https://travis-ci.org/dhruvbaldawa/multibase
@@ -24,17 +25,31 @@ Multibase implementation for Python
 * Free software: MIT license
 * Documentation: https://multibase.readthedocs.io.
 
+Installation
+------------
 
-Features
---------
+    $ pip install python-multihash
 
-* TODO
 
-Credits
----------
+Supported codecs
+----------------
 
-This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
+* base2
+* base8
+* base10
+* base16
+* base16
+* base16
+* base32hex
+* base32
+* base32z
+* base58flickr
+* base58btc
+* base64
+* base64url
 
-.. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+TODO
+----
 
+* Add package documentation
+* Add docstrings
