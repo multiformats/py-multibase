@@ -1,11 +1,11 @@
 ============
-python-multibase
+py-multibase
 ============
 
 
 
 .. image:: https://img.shields.io/pypi/v/multibase.svg
-        :target: https://pypi.python.org/pypi/python-multibase
+        :target: https://pypi.python.org/pypi/py-multibase
 
 .. image:: https://img.shields.io/travis/dhruvbaldawa/multibase.svg
         :target: https://travis-ci.org/dhruvbaldawa/multibase

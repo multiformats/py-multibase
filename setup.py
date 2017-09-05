@@ -27,7 +27,7 @@ test_requirements = [
 ]
 
 setup(
-    name='python-multibase',
+    name='py-multibase',
     version='0.1.0',
     description="Multibase implementation for Python",
     long_description=readme + '\n\n' + history,

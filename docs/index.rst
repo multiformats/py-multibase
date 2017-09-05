@@ -1,4 +1,4 @@
-Welcome to python-multibase's documentation!
+Welcome to py-multibase's documentation!
 ======================================
 
 Contents:

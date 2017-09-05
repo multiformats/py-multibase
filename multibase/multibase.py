@@ -1,6 +1,6 @@
 from collections import namedtuple
 
-from .converter import BaseStringConverter, Base16StringConverter
+from .converters import BaseStringConverter, Base16StringConverter
 
 
 class IdentityConverter(object):
