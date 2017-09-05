@@ -4,18 +4,18 @@ py-multibase
 
 
 
-.. image:: https://img.shields.io/pypi/v/multibase.svg
+.. image:: https://img.shields.io/pypi/v/py-multibase.svg
         :target: https://pypi.python.org/pypi/py-multibase
 
-.. image:: https://img.shields.io/travis/dhruvbaldawa/multibase.svg
-        :target: https://travis-ci.org/dhruvbaldawa/multibase
+.. image:: https://img.shields.io/travis/dhruvbaldawa/py-multibase.svg
+        :target: https://travis-ci.org/dhruvbaldawa/py-multibase
 
-.. image:: https://readthedocs.org/projects/multibase/badge/?version=latest
-        :target: https://multibase.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/py-multibase/badge/?version=latest
+        :target: https://py-multibase.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-.. image:: https://pyup.io/repos/github/dhruvbaldawa/multibase/shield.svg
-     :target: https://pyup.io/repos/github/dhruvbaldawa/multibase/
+.. image:: https://pyup.io/repos/github/dhruvbaldawa/py-multibase/shield.svg
+     :target: https://pyup.io/repos/github/dhruvbaldawa/py-multibase/
      :alt: Updates
 
 
@@ -23,12 +23,12 @@ Multibase implementation for Python
 
 
 * Free software: MIT license
-* Documentation: https://multibase.readthedocs.io.
+* Documentation: https://py-multibase.readthedocs.io.
 
 Installation
 ------------
 
-    $ pip install python-multihash
+    $ pip install py-multibase
 
 
 Supported codecs
