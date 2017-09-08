@@ -4,7 +4,7 @@
 """Tests for `multibase` package."""
 
 import pytest
-
+from morphys import ensure_bytes
 
 from multibase import encode, decode
 
@@ -25,14 +25,11 @@ TEST_FIXTURES = [
 ]
 
 
-@pytest.fixture(scope='module', params=TEST_FIXTURES)
-def samples(request):
-    return request.param
+@pytest.mark.parametrize('encoding,data,encoded_data', TEST_FIXTURES)
+def test_encode(encoding, data, encoded_data):
+    assert encode(encoding, data) == ensure_bytes(encoded_data)
 
 
-def test_encode(samples):
-    assert encode(samples[0], samples[1]) == samples[2]
-
-
-def test_decode(samples):
-    assert decode(samples[2]) == samples[1]
+@pytest.mark.parametrize('encoding,data,encoded_data', TEST_FIXTURES)
+def test_decode(encoding, data, encoded_data):
+    assert decode(encoded_data) == ensure_bytes(data)

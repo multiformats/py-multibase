@@ -1,22 +1,12 @@
 from collections import namedtuple
+from morphys import ensure_bytes
 
-from .converters import BaseStringConverter, Base16StringConverter
-
-
-class IdentityConverter(object):
-    @classmethod
-    def encode(cls, x):
-        return x
-
-    @classmethod
-    def decode(cls, x):
-        return x
-
+from .converters import BaseStringConverter, Base16StringConverter, IdentityConverter
 
 Codec = namedtuple('Codec', 'encoding,code,converter')
 CODE_LENGTH = 1
 CODECS = [
-    Codec('identity', b'\x00', ''),
+    Codec('identity', b'\x00', IdentityConverter()),
     Codec('base2', b'0', BaseStringConverter('01')),
     Codec('base8', b'7', BaseStringConverter('01234567')),
     Codec('base10', b'9', BaseStringConverter('0123456789')),
@@ -40,9 +30,9 @@ for codec in CODECS:
 
 
 def encode(encoding, data):
-    data = bytes(data, 'utf8')
+    data = ensure_bytes(data, 'utf8')
     try:
-        return CODECS_LOOKUP[encoding].code.decode('utf8') + CODECS_LOOKUP[encoding].converter.encode(data)
+        return CODECS_LOOKUP[encoding].code + CODECS_LOOKUP[encoding].converter.encode(data)
     except KeyError:
         raise ValueError('Encoding {} not supported.'.format(encoding))
 
@@ -56,7 +46,17 @@ def get_codec(data):
         return codec
 
 
+def is_encoded(data):
+    try:
+        if get_codec(data):
+            return True
+    except ValueError:
+        return False
+
+    return False
+
+
 def decode(data):
-    data = bytes(data, 'utf8')
+    data = ensure_bytes(data, 'utf8')
     codec = get_codec(data)
     return codec.converter.decode(data[CODE_LENGTH:])
