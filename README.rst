@@ -10,6 +10,9 @@ py-multibase
 .. image:: https://img.shields.io/travis/dhruvbaldawa/py-multibase.svg
         :target: https://travis-ci.org/dhruvbaldawa/py-multibase
 
+.. image:: https://codecov.io/gh/dhruvbaldawa/py-multibase/branch/master/graph/badge.svg
+        :target: https://codecov.io/gh/dhruvbaldawa/py-multibase
+
 .. image:: https://readthedocs.org/projects/py-multibase/badge/?version=latest
         :target: https://py-multibase.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
