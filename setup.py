@@ -34,7 +34,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author="Dhruv Baldawa",
     author_email='dhruv@dhruvb.com',
-    url='https://github.com/dhruvbaldawa/multibase',
+    url='https://github.com/multiformats/py-multibase',
     packages=find_packages(include=['multibase']),
     include_package_data=True,
     install_requires=requirements,

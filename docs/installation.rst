@@ -14,7 +14,7 @@ To install py-multibase, run this command in your terminal:
 
     $ pip install multibase
 
-This is the preferred method to install py-multibase, as it will always install the most recent stable release. 
+This is the preferred method to install py-multibase, as it will always install the most recent stable release.
 
 If you don't have `pip`_ installed, this `Python installation guide`_ can guide
 you through the process.
@@ -32,13 +32,13 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/dhruvbaldawa/multibase
+    $ git clone git://github.com/multiformats/py-multibase
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl  -OL https://github.com/dhruvbaldawa/multibase/tarball/master
+    $ curl  -OL https://github.com/multiformats/py-multibase/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -47,5 +47,5 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/dhruvbaldawa/multibase
-.. _tarball: https://github.com/dhruvbaldawa/multibase/tarball/master
+.. _Github repo: https://github.com/multiformats/py-multibase
+.. _tarball: https://github.com/multiformats/py-multibase/tarball/master

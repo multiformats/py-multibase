@@ -7,18 +7,18 @@ py-multibase
 .. image:: https://img.shields.io/pypi/v/py-multibase.svg
         :target: https://pypi.python.org/pypi/py-multibase
 
-.. image:: https://img.shields.io/travis/dhruvbaldawa/py-multibase.svg
-        :target: https://travis-ci.org/dhruvbaldawa/py-multibase
+.. image:: https://img.shields.io/travis/multiformats/py-multibase.svg
+        :target: https://travis-ci.org/multiformats/py-multibase
 
-.. image:: https://codecov.io/gh/dhruvbaldawa/py-multibase/branch/master/graph/badge.svg
-        :target: https://codecov.io/gh/dhruvbaldawa/py-multibase
+.. image:: https://codecov.io/gh/multiformats/py-multibase/branch/master/graph/badge.svg
+        :target: https://codecov.io/gh/multiformats/py-multibase
 
 .. image:: https://readthedocs.org/projects/py-multibase/badge/?version=latest
         :target: https://py-multibase.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-.. image:: https://pyup.io/repos/github/dhruvbaldawa/py-multibase/shield.svg
-     :target: https://pyup.io/repos/github/dhruvbaldawa/py-multibase/
+.. image:: https://pyup.io/repos/github/multiformats/py-multibase/shield.svg
+     :target: https://pyup.io/repos/github/multiformats/py-multibase/
      :alt: Updates
 
 
