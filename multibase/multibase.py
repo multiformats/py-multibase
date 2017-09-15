@@ -75,12 +75,10 @@ def is_encoded(data):
     :rtype: bool
     """
     try:
-        if get_codec(data):
-            return True
+        get_codec(data)
+        return True
     except ValueError:
         return False
-
-    return False
 
 
 def decode(data):
@@ -90,6 +88,7 @@ def decode(data):
     :type data: str or bytes
     :return: decoded data
     :rtype: str
+    :raises ValueError: if the data is not multibase encoded
     """
     data = ensure_bytes(data, 'utf8')
     codec = get_codec(data)

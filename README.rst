@@ -2,8 +2,6 @@
 py-multibase
 ============
 
-
-
 .. image:: https://img.shields.io/pypi/v/py-multibase.svg
         :target: https://pypi.python.org/pypi/py-multibase
 
@@ -21,9 +19,19 @@ py-multibase
      :target: https://pyup.io/repos/github/multiformats/py-multibase/
      :alt: Updates
 
+`Multibase <https://github.com/multiformats/multibase>`_ implementation for Python
 
-Multibase implementation for Python
+Multibase is a protocol for distinguishing base encodings and other simple string encodings, and for ensuring full compatibility with program interfaces.
 
+It answers the question: Given data d encoded into string s, how can I tell what base d is encoded with?
+
+Base encodings exist because transports have restrictions, use special in-band sequences, or must be human-friendly.
+When systems chose a base to use, it is not always clear which base to use, as there are many tradeoffs in the decision.
+Multibase is here to save programs and programmers from worrying about which encoding is best.
+
+It solves the biggest problem: a program can use multibase to take input or produce output in whichever base is desired.
+
+The important part is that the value is self-describing, letting other programs elsewhere know what encoding it is using.
 
 * Free software: MIT license
 * Documentation: https://py-multibase.readthedocs.io.
