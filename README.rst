@@ -39,6 +39,8 @@ The important part is that the value is self-describing, letting other programs 
 Installation
 ------------
 
+.. code-block:: shell
+
     $ pip install py-multibase
 
 

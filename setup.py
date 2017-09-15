@@ -14,7 +14,7 @@ with open('HISTORY.rst') as history_file:
 requirements = [
     'python-baseconv==1.2.0',
     'six==1.10.0',
-    'morphys==1.0.0',
+    'morphys==1.0',
 ]
 
 setup_requirements = [

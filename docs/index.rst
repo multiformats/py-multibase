@@ -1,9 +1,5 @@
 .. include:: ../README.rst
 
-More examples
-=============
-
-Check :doc:`usage` for more usage examples
 
 Table of contents
 =================
@@ -13,7 +9,6 @@ Table of contents
 
    index
    installation
-   usage
    api_reference
    contributing
    authors
