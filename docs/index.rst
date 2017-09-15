@@ -9,14 +9,15 @@ Table of contents
 =================
 
 .. toctree::
-:maxdepth: 2
+   :maxdepth: 2
 
-       index
-       usage
-       api_reference
-       contributing
-       authors
-       history
+   index
+   installation
+   usage
+   api_reference
+   contributing
+   authors
+   history
 
 Indices and tables
 ==================

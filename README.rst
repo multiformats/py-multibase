@@ -34,6 +34,26 @@ Installation
     $ pip install py-multibase
 
 
+Sample Usage
+------------
+
+.. code-block:: python
+
+    >>> # encoding a buffer
+    >>> from multibase import encode, decode
+    >>> encode('base58btc', 'hello world')
+    b'zStV1DL6CwTryKyV'
+    >>> encode('base64', 'hello world')
+    b'mGhlbGxvIHdvcmxk'
+    >>> # decoding a multibase
+    >>> decode('mGhlbGxvIHdvcmxk')
+    b'hello world'
+    >>> decode(b'zStV1DL6CwTryKyV')
+    b'hello world'
+    >>> decode(encode('base2', b'hello world'))
+    b'hello world'
+
+
 Supported codecs
 ----------------
 
@@ -50,9 +70,3 @@ Supported codecs
 * base58btc
 * base64
 * base64url
-
-TODO
-----
-
-* Add package documentation
-* Add docstrings

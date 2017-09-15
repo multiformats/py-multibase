@@ -6,4 +6,4 @@ __author__ = """Dhruv Baldawa"""
 __email__ = 'dhruv@dhruvb.com'
 __version__ = '0.1.1'
 
-from .multibase import encode, decode, get_codec, is_encoded, CODECS  # noqa: F401
+from .multibase import encode, decode, get_codec, is_encoded, Codec, CODECS  # noqa: F401
