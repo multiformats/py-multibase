@@ -1,7 +1,7 @@
 from collections import namedtuple
 from morphys import ensure_bytes
 
-from .converters import BaseStringConverter, Base16StringConverter, IdentityConverter
+from .converters import BaseStringConverter, Base16StringConverter, IdentityConverter, Base64StringConverter
 
 Encoding = namedtuple('Encoding', 'encoding,code,converter')
 CODE_LENGTH = 1
@@ -16,11 +16,11 @@ ENCODINGS = [
     Encoding('base32z', b'h', BaseStringConverter('ybndrfg8ejkmcpqxot1uwisza345h769')),
     Encoding('base58flickr', b'Z', BaseStringConverter('123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ')),
     Encoding('base58btc', b'z', BaseStringConverter('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz')),
-    Encoding('base64', b'm', BaseStringConverter('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/')),
-    Encoding('base64url', b'u', BaseStringConverter(
+    Encoding('base64', b'm', Base64StringConverter('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/')),
+    Encoding('base64url', b'u', Base64StringConverter(
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_',
         sign='$')
-             ),
+    ),
 ]
 
 ENCODINGS_LOOKUP = {}
