@@ -36,11 +36,15 @@ class Base16StringConverter(BaseStringConverter):
         return ensure_bytes(''.join(['{:02x}'.format(byte) for byte in bytes]))
 
 
-class Base64StringConverter(BaseConverter):
-    def __init__(self, digits, sign=False):
+class BaseByteStringConverter(object):
+    ENCODE_GROUP_BYTES = 1
+    ENCODING_BITS = 1
+    DECODING_BITS = 1
+
+    def __init__(self, digits):
         self.digits = digits
-        self.nbytes = 3
-        self.nbits = 6
+        self.GROUP_SIZE = self.ENCODE_GROUP_BYTES * self.ENCODING_BITS
+        self.DECODE_GROUP_BYTES = self.GROUP_SIZE // self.DECODING_BITS
 
     def grouper(self, iterable, n, fillvalue=None):
         "Collect data into fixed-length chunks or blocks"
@@ -52,14 +56,15 @@ class Base64StringConverter(BaseConverter):
         buffer = BytesIO(bytes_)
         encoded_bytes = BytesIO()
         while True:
-            byte_ = buffer.read(self.nbytes)
+            byte_ = buffer.read(self.ENCODE_GROUP_BYTES)
             if not byte_:
                 break
 
             # convert all bytes to a binary format and concatenate them into a 24bit string
-            binstring = ''.join(['{:08b}'.format(x) for x in byte_])
+            binstringfmt = '{{:0{}b}}'.format(self.ENCODING_BITS)
+            binstring = ''.join([binstringfmt.format(x) for x in byte_])
             # break the 24 bit length string into pieces of 6 bits each
-            digits = (int(''.join(x), 2) for x in self.grouper(binstring, self.nbits, '0'))
+            digits = (int(''.join(x), 2) for x in self.grouper(binstring, self.DECODING_BITS, '0'))
 
             for digit in digits:
                 # convert binary representation to an integer
@@ -77,18 +82,18 @@ class Base64StringConverter(BaseConverter):
 
         buffer.seek(0)
         while True:
-            byte_ = buffer.read(4)
+            byte_ = buffer.read(self.DECODE_GROUP_BYTES)
             if not byte_:
                 break
 
             # convert all bytes to a binary format and concatenate them into a 8, 16, 24bit string
-            binstring = ''.join(['{:06b}'.format(x) for x in byte_])
+            binstringfmt = '{{:0{}b}}'.format(self.DECODING_BITS)
+            binstring = ''.join([binstringfmt.format(x) for x in byte_])
 
             # break the 24 bit length string into pieces of 8 bits each
-            digits = [int(''.join(x), 2) for x in map(''.join, zip(*[iter(binstring)] * 8))]
+            digits = [int(''.join(x), 2) for x in map(''.join, zip(*[iter(binstring)] * self.ENCODING_BITS))]
 
             for digit in digits:
-                print(digit)
                 outbuffer.write(bytes([digit]))
 
         return outbuffer.getvalue()
@@ -98,6 +103,18 @@ class Base64StringConverter(BaseConverter):
 
     def decode(self, bytes):
         return self._base64_to_bytes(ensure_bytes(bytes))
+
+
+class Base64StringConverter(BaseByteStringConverter):
+    ENCODE_GROUP_BYTES = 3
+    ENCODING_BITS = 8
+    DECODING_BITS = 6
+
+
+class Base32StringConverter(BaseByteStringConverter):
+    ENCODE_GROUP_BYTES = 4
+    ENCODING_BITS = 8
+    DECODING_BITS = 5
 
 
 class IdentityConverter(object):

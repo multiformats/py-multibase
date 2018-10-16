@@ -8,24 +8,9 @@ from morphys import ensure_bytes
 
 from multibase import encode, decode, is_encoded
 
-TEST_FIXTURES = (
-    ('identity', 'yes mani !', '\x00yes mani !'),
-    ('base2', 'yes mani !', '01111001011001010111001100100000011011010110000101101110011010010010000000100001'),
-    ('base8', 'yes mani !', '7171312714403326055632220041'),
-    ('base10', 'yes mani !', '9573277761329450583662625'),
-    ('base16', 'yes mani !', 'f796573206d616e692021'),
-    ('base16', '\x01', 'f01'),
-    ('base16', '\x0f', 'f0f'),
-    ('base32hex', 'yes mani !', 'vf5in683dc5n6i811'),
-    ('base32', 'yes mani !', 'bpfsxgidnmfxgsibb'),
-    ('base32z', 'yes mani !', 'hxf1zgedpcfzg1ebb'),
-    ('base58flickr', 'yes mani !', 'Z7Pznk19XTTzBtx'),
-    ('base58btc', 'yes mani !', 'z7paNL19xttacUY'),
-    ('base64', '÷ïÿ', 'mw7fDr8O/'),
-    ('base64url', '÷ïÿ', 'uw7fDr8O_'),
-)
 
 TEST_FIXTURES = (
+    ('identity', 'yes mani !', '\x00yes mani !'),
     ('base2', 'yes mani !', '01111001011001010111001100100000011011010110000101101110011010010010000000100001'),
     ('base8', 'yes mani !', '7171312714403326055632220041'),
     ('base10', 'yes mani !', '9573277761329450583662625'),
@@ -40,13 +25,13 @@ TEST_FIXTURES = (
     ('base16', 'fooba', 'f666f6f6261'),
     ('base16', 'foobar', 'f666f6f626172'),
 
-    # ('base32', 'yes mani !', 'bpfsxgidnmfxgsibb'),
-    # ('base32', 'f', 'bmy'),
-    # ('base32', 'fo', 'bmzxq'),
-    # ('base32', 'foo', 'bmzxw6'),
-    # ('base32', 'foob', 'bmzxw6yq'),
-    # ('base32', 'fooba', 'bmzxw6ytb'),
-    # ('base32', 'foobar', 'bmzxw6ytboi'),
+    ('base32', 'yes mani !', 'bpfsxgidnmfxgsibb'),
+    ('base32', 'f', 'bmy'),
+    ('base32', 'fo', 'bmzxq'),
+    ('base32', 'foo', 'bmzxw6'),
+    ('base32', 'foob', 'bmzxw6yq'),
+    ('base32', 'fooba', 'bmzxw6ytb'),
+    ('base32', 'foobar', 'bmzxw6ytboi'),
 
     # ('base32pad', 'yes mani !', 'cpfsxgidnmfxgsibb'),
     # ('base32pad', 'f', 'cmy======'),
