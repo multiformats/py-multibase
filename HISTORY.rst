@@ -1,7 +1,7 @@
 History
 -------
 
-Unreleased
+1.0.0 (2018-10-19)
 ==================
 
 * Re-implement encoding for base32 and base64, as the implementation was buggy
