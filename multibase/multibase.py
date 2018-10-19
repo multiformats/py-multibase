@@ -1,7 +1,8 @@
 from collections import namedtuple
 from morphys import ensure_bytes
 
-from .converters import BaseStringConverter, Base16StringConverter, IdentityConverter
+from .converters import BaseStringConverter, Base16StringConverter, IdentityConverter, Base64StringConverter, \
+    Base32StringConverter
 
 Encoding = namedtuple('Encoding', 'encoding,code,converter')
 CODE_LENGTH = 1
@@ -11,16 +12,15 @@ ENCODINGS = [
     Encoding('base8', b'7', BaseStringConverter('01234567')),
     Encoding('base10', b'9', BaseStringConverter('0123456789')),
     Encoding('base16', b'f', Base16StringConverter()),
-    Encoding('base32hex', b'v', BaseStringConverter('0123456789abcdefghijklmnopqrstuv')),
-    Encoding('base32', b'b', BaseStringConverter('abcdefghijklmnopqrstuvwxyz234567')),
+    Encoding('base32hex', b'v', Base32StringConverter('0123456789abcdefghijklmnopqrstuv')),
+    Encoding('base32', b'b', Base32StringConverter('abcdefghijklmnopqrstuvwxyz234567')),
     Encoding('base32z', b'h', BaseStringConverter('ybndrfg8ejkmcpqxot1uwisza345h769')),
     Encoding('base58flickr', b'Z', BaseStringConverter('123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ')),
     Encoding('base58btc', b'z', BaseStringConverter('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz')),
-    Encoding('base64', b'm', BaseStringConverter('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/')),
-    Encoding('base64url', b'u', BaseStringConverter(
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_',
-        sign='$')
-             ),
+    Encoding('base64', b'm', Base64StringConverter('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/')),
+    Encoding('base64url', b'u',
+        Base64StringConverter('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'),
+    ),
 ]
 
 ENCODINGS_LOOKUP = {}

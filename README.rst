@@ -1,23 +1,18 @@
-============
 py-multibase
-============
+------------
 
 .. image:: https://img.shields.io/pypi/v/py-multibase.svg
         :target: https://pypi.python.org/pypi/py-multibase
 
-.. image:: https://img.shields.io/travis/multiformats/py-multibase.svg
-        :target: https://travis-ci.org/multiformats/py-multibase
+.. image:: https://img.shields.io/travis/multiformats/py-multibase.svg?branch=master
+        :target: https://travis-ci.org/multiformats/py-multibase?branch=master
 
 .. image:: https://codecov.io/gh/multiformats/py-multibase/branch/master/graph/badge.svg
         :target: https://codecov.io/gh/multiformats/py-multibase
 
-.. image:: https://readthedocs.org/projects/py-multibase/badge/?version=latest
-        :target: https://py-multibase.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/py-multibase/badge/?version=stable
+        :target: https://py-multibase.readthedocs.io/en/stable/?badge=stable
         :alt: Documentation Status
-
-.. image:: https://pyup.io/repos/github/multiformats/py-multibase/shield.svg
-     :target: https://pyup.io/repos/github/multiformats/py-multibase/
-     :alt: Updates
 
 `Multibase <https://github.com/multiformats/multibase>`_ implementation for Python
 
@@ -35,9 +30,10 @@ The important part is that the value is self-describing, letting other programs 
 
 * Free software: MIT license
 * Documentation: https://py-multibase.readthedocs.io.
+* Python versions: 3.5, 3.6
 
 Installation
-------------
+============
 
 .. code-block:: shell
 
@@ -45,7 +41,7 @@ Installation
 
 
 Sample Usage
-------------
+============
 
 .. code-block:: python
 
@@ -65,7 +61,7 @@ Sample Usage
 
 
 Supported codecs
-----------------
+================
 
 * base2
 * base8
