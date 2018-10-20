@@ -4,6 +4,6 @@
 
 __author__ = """Dhruv Baldawa"""
 __email__ = 'dhruv@dhruvb.com'
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 from .multibase import encode, decode, get_codec, is_encoded, Encoding, ENCODINGS  # noqa: F401
