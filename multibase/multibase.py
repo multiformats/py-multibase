@@ -15,12 +15,15 @@ ENCODINGS = [
     Encoding('base32hex', b'v', Base32StringConverter('0123456789abcdefghijklmnopqrstuv')),
     Encoding('base32', b'b', Base32StringConverter('abcdefghijklmnopqrstuvwxyz234567')),
     Encoding('base32z', b'h', BaseStringConverter('ybndrfg8ejkmcpqxot1uwisza345h769')),
+    Encoding('base36', b'k', BaseStringConverter('0123456789abcdefghijklmnopqrstuvwxyz')),
+    Encoding('base36upper', b'K', BaseStringConverter('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ')),
     Encoding('base58flickr', b'Z', BaseStringConverter('123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ')),
     Encoding('base58btc', b'z', BaseStringConverter('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz')),
     Encoding('base64', b'm', Base64StringConverter('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/')),
     Encoding('base64url', b'u',
-        Base64StringConverter('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'),
-    ),
+             Base64StringConverter(
+                 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'),
+             ),
 ]
 
 ENCODINGS_LOOKUP = {}
