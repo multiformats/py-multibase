@@ -1,4 +1,6 @@
 Contributors
 ------------
 
-* Dhruv Baldawa <@dhruvbaldawa>
+* @cardoso-neto
+* @dhruvbaldawa
+* @pinnaculum

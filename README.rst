@@ -72,6 +72,8 @@ Supported codecs
 * base32hex
 * base32
 * base32z
+* base36
+* base36upper
 * base58flickr
 * base58btc
 * base64
