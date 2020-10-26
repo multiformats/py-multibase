@@ -29,7 +29,7 @@ test_requirements = [
 
 setup(
     name='py-multibase',
-    version='1.0.2',
+    version='1.0.3',
     description="Multibase implementation for Python",
     long_description=readme + '\n\n' + history,
     author="Dhruv Baldawa",
