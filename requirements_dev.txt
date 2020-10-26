@@ -1,4 +1,4 @@
-pip==20
+pip<20
 bump2version==0.5.11
 coverage==4.5.4
 cryptography==3.2
@@ -9,6 +9,6 @@ pytest==4.6.5
 Sphinx==1.8.5
 tox==3.14.0
 twine==1.14.0
-watchdog==0.9.0
+watchdog[watchmedo]==0.10.3
 wheel==0.33.6
 codecov
