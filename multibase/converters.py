@@ -29,9 +29,6 @@ class BaseStringConverter(BaseConverter):
 
 
 class Base16StringConverter(BaseStringConverter):
-    def __init__(self):
-        self.digits = '0123456789abcdef'
-
     def encode(self, bytes):
         return ensure_bytes(''.join(['{:02x}'.format(byte) for byte in bytes]))
 

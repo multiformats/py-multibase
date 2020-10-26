@@ -11,7 +11,7 @@ ENCODINGS = [
     Encoding('base2', b'0', BaseStringConverter('01')),
     Encoding('base8', b'7', BaseStringConverter('01234567')),
     Encoding('base10', b'9', BaseStringConverter('0123456789')),
-    Encoding('base16', b'f', Base16StringConverter()),
+    Encoding('base16', b'f', Base16StringConverter('0123456789abcdef')),
     Encoding('base32hex', b'v', Base32StringConverter('0123456789abcdefghijklmnopqrstuv')),
     Encoding('base32', b'b', Base32StringConverter('abcdefghijklmnopqrstuvwxyz234567')),
     Encoding('base32z', b'h', BaseStringConverter('ybndrfg8ejkmcpqxot1uwisza345h769')),
