@@ -1,6 +1,11 @@
 History
 -------
 
+1.0.3 (2020-10-26)
+==================
+* Add base36 and base36 upper encodings
+* Fix issue with base16 encoding
+
 1.0.0 (2018-10-19)
 ==================
 
