@@ -58,6 +58,10 @@ TEST_FIXTURES = (
     # ('base32hexpad', 'foobar', 'tcpnmuoj1e8======'),
 
     ('base32z', 'yes mani !', 'hxf1zgedpcfzg1ebb'),
+
+    ('base36', 'Decentralize everything!!!', 'km552ng4dabi4neu1oo8l4i5mndwmpc3mkukwtxy9'),
+    ('base36upper', 'Decentralize everything!!!', 'KM552NG4DABI4NEU1OO8L4I5MNDWMPC3MKUKWTXY9'),
+
     ('base58flickr', 'yes mani !', 'Z7Pznk19XTTzBtx'),
     ('base58btc', 'yes mani !', 'z7paNL19xttacUY'),
 
