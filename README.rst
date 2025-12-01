@@ -61,6 +61,28 @@ Sample Usage
     >>> decode(encode('base2', b'hello world'))
     b'hello world'
 
+    >>> # Using reusable Encoder/Decoder classes
+    >>> from multibase import Encoder, Decoder
+    >>> encoder = Encoder('base64')
+    >>> encoded1 = encoder.encode('data1')
+    >>> encoded2 = encoder.encode('data2')
+
+    >>> decoder = Decoder()
+    >>> decoded = decoder.decode(encoded1)
+
+    >>> # Getting encoding information
+    >>> from multibase import get_encoding_info, list_encodings, is_encoding_supported
+    >>> info = get_encoding_info('base64')
+    >>> print(info.encoding, info.code)
+    base64 b'm'
+    >>> all_encodings = list_encodings()
+    >>> is_encoding_supported('base64')
+    True
+
+    >>> # Decode with encoding return
+    >>> encoding, data = decode(encoded1, return_encoding=True)
+    >>> print(f'Encoded with {encoding}: {data}')
+
 
 Supported codecs
 ================
@@ -69,14 +91,22 @@ Supported codecs
 * base8
 * base10
 * base16
-* base16
-* base16
+* base16upper
 * base32hex
+* base32hexupper
+* base32hexpad
+* base32hexpadupper
 * base32
+* base32upper
+* base32pad
+* base32padupper
 * base32z
 * base36
 * base36upper
 * base58flickr
 * base58btc
 * base64
+* base64pad
 * base64url
+* base64urlpad
+* base256emoji
