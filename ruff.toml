@@ -1,0 +1,24 @@
+line-length = 120
+indent-width = 4
+exclude = [
+    ".eggs",
+    ".git",
+    ".ruff_cache",
+    ".tox",
+    ".venv",
+    "venv",
+    "build",
+    "dist",
+    "docs",
+    "*.egg",
+]
+
+[lint]
+select = ["E", "F", "W", "I", "RUF"]
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "lf"

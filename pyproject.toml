@@ -1,0 +1,191 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "py-multibase"
+version = "1.0.3"
+description = "Multibase implementation for Python"
+readme = "README.rst"
+authors = [{ name = "Dhruv Baldawa", email = "dhruv@dhruvb.com" }]
+license = { text = "MIT" }
+keywords = ["multibase"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+requires-python = ">=3.10, <4.0"
+dependencies = [
+    "python-baseconv>=1.2.0,<2.0",
+    "six>=1.10.0,<2.0",
+    "morphys>=1.0,<2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/multiformats/py-multibase"
+Download = "https://github.com/multiformats/py-multibase/tarball/1.0.3"
+
+[project.optional-dependencies]
+dev = [
+    "Sphinx>=5.0.0",
+    "build>=0.9.0",
+    "bump-my-version>=1.2.0",
+    "codecov",
+    "coverage>=6.5.0",
+    "mypy",
+    "pre-commit",
+    "pytest",
+    "pytest-cov",
+    "pytest-runner",
+    "ruff",
+    "towncrier>=24,<25",
+    "tox>=4.10.0",
+    "twine",
+    "watchdog>=3.0.0",
+    "wheel>=0.31.0",
+]
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["multibase*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_classes = "*TestCase"
+
+[tool.coverage.run]
+source = ["multibase"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+]
+
+[tool.towncrier]
+# Read https://github.com/multiformats/py-multibase/blob/master/newsfragments/README.md for instructions
+directory = "newsfragments"
+filename = "HISTORY.rst"
+issue_format = "`#{issue} <https://github.com/multiformats/py-multibase/issues/{issue}>`__"
+package = "multibase"
+title_format = "py-multibase v{version} ({project_date})"
+underlines = ["-", "~", "^"]
+ignore = ["validate_files.py", "README.md"]
+
+[[tool.towncrier.type]]
+directory = "breaking"
+name = "Breaking Changes"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "bugfix"
+name = "Bugfixes"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "deprecation"
+name = "Deprecations"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "docs"
+name = "Improved Documentation"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "feature"
+name = "Features"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "internal"
+name = "Internal Changes - for py-multibase Contributors"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "misc"
+name = "Miscellaneous Changes"
+showcontent = false
+
+[[tool.towncrier.type]]
+directory = "performance"
+name = "Performance Improvements"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "removal"
+name = "Removals"
+showcontent = true
+
+[tool.bumpversion]
+current_version = "1.0.3"
+parse = """
+    (?P<major>\\d+)
+    \\.(?P<minor>\\d+)
+    \\.(?P<patch>\\d+)
+"""
+serialize = [
+    "{major}.{minor}.{patch}",
+]
+search = "{current_version}"
+replace = "{new_version}"
+regex = false
+ignore_missing_version = false
+tag = true
+sign_tags = true
+tag_name = "v{new_version}"
+tag_message = "Bump version: {current_version} → {new_version}"
+allow_dirty = false
+commit = true
+message = "Bump version: {current_version} → {new_version}"
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = "version = \"{current_version}\""
+replace = "version = \"{new_version}\""
+
+[[tool.bumpversion.files]]
+filename = "multibase/__init__.py"
+search = "__version__ = '{current_version}'"
+replace = "__version__ = '{new_version}'"
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = "Download = \"https://github.com/multiformats/py-multibase/tarball/{current_version}\""
+replace = "Download = \"https://github.com/multiformats/py-multibase/tarball/{new_version}\""
+
+[tool.mypy]
+python_version = "3.10"
+check_untyped_defs = false
+disallow_any_generics = false
+disallow_incomplete_defs = false
+disallow_subclassing_any = false
+disallow_untyped_calls = false
+disallow_untyped_decorators = false
+disallow_untyped_defs = false
+ignore_missing_imports = true
+incremental = false
+strict_equality = false
+strict_optional = false
+warn_redundant_casts = false
+warn_return_any = false
+warn_unused_configs = true
+warn_unused_ignores = false

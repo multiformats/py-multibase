@@ -7,8 +7,8 @@ from morphys import ensure_bytes
 
 class BaseStringConverter(BaseConverter):
     def encode(self, bytes):
-        number = int.from_bytes(bytes, byteorder='big', signed=False)
-        return ensure_bytes(super(BaseStringConverter, self).encode(number))
+        number = int.from_bytes(bytes, byteorder="big", signed=False)
+        return ensure_bytes(super().encode(number))
 
     def bytes_to_int(self, bytes):
         length = len(bytes)
@@ -23,16 +23,16 @@ class BaseStringConverter(BaseConverter):
         decoded_int = self.bytes_to_int(bytes)
         # See https://docs.python.org/3.5/library/stdtypes.html#int.to_bytes for more about the magical expression
         # below
-        decoded_data = decoded_int.to_bytes((decoded_int.bit_length() + 7) // 8, byteorder='big')
+        decoded_data = decoded_int.to_bytes((decoded_int.bit_length() + 7) // 8, byteorder="big")
         return decoded_data
 
 
 class Base16StringConverter(BaseStringConverter):
     def encode(self, bytes):
-        return ensure_bytes(''.join(['{:02x}'.format(byte) for byte in bytes]))
+        return ensure_bytes("".join([f"{byte:02x}" for byte in bytes]))
 
 
-class BaseByteStringConverter(object):
+class BaseByteStringConverter:
     ENCODE_GROUP_BYTES = 1
     ENCODING_BITS = 1
     DECODING_BITS = 1
@@ -47,7 +47,7 @@ class BaseByteStringConverter(object):
         return zip_longest(*args, fillvalue=fillvalue)
 
     def _chunk_without_padding(self, iterable, n):
-        return map(''.join, zip(*[iter(iterable)] * n))
+        return map("".join, zip(*[iter(iterable)] * n))
 
     def _encode_bytes(self, bytes_, group_bytes, encoding_bits, decoding_bits):
         buffer = BytesIO(bytes_)
@@ -58,10 +58,10 @@ class BaseByteStringConverter(object):
                 break
 
             # convert all bytes to a binary format and concatenate them into a 24bit string
-            binstringfmt = '{{:0{}b}}'.format(encoding_bits)
-            binstring = ''.join([binstringfmt.format(x) for x in byte_])
+            binstringfmt = f"{{:0{encoding_bits}b}}"
+            binstring = "".join([binstringfmt.format(x) for x in byte_])
             # break the 24 bit length string into pieces of 6 bits each and convert them to integer
-            digits = (int(''.join(x), 2) for x in self._chunk_with_padding(binstring, decoding_bits, '0'))
+            digits = (int("".join(x), 2) for x in self._chunk_with_padding(binstring, decoding_bits, "0"))
 
             for digit in digits:
                 # convert binary representation to an integer
@@ -84,11 +84,11 @@ class BaseByteStringConverter(object):
                 break
 
             # convert all bytes to a binary format and concatenate them into a 8, 16, 24bit string
-            binstringfmt = '{{:0{}b}}'.format(decoding_bits)
-            binstring = ''.join([binstringfmt.format(x) for x in byte_])
+            binstringfmt = f"{{:0{decoding_bits}b}}"
+            binstring = "".join([binstringfmt.format(x) for x in byte_])
 
             # break the 24 bit length string into pieces of 8 bits each and convert them to integer
-            digits = [int(''.join(x), 2) for x in self._chunk_without_padding(binstring, encoding_bits)]
+            digits = [int("".join(x), 2) for x in self._chunk_without_padding(binstring, encoding_bits)]
 
             for digit in digits:
                 decoded_bytes.write(bytes([digit]))
@@ -118,7 +118,7 @@ class Base32StringConverter(BaseByteStringConverter):
         return self._decode_bytes(ensure_bytes(bytes), 8, 5, 8)
 
 
-class IdentityConverter(object):
+class IdentityConverter:
     def encode(self, x):
         return x
 
