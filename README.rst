@@ -6,8 +6,8 @@ py-multibase
 .. image:: https://img.shields.io/pypi/v/py-multibase.svg
         :target: https://pypi.python.org/pypi/py-multibase
 
-.. image:: https://img.shields.io/travis/multiformats/py-multibase.svg?branch=master
-        :target: https://travis-ci.org/multiformats/py-multibase?branch=master
+.. image:: https://github.com/multiformats/py-multibase/actions/workflows/tox.yml/badge.svg
+        :target: https://github.com/multiformats/py-multibase/actions
 
 .. image:: https://codecov.io/gh/multiformats/py-multibase/branch/master/graph/badge.svg
         :target: https://codecov.io/gh/multiformats/py-multibase
@@ -32,7 +32,7 @@ The important part is that the value is self-describing, letting other programs 
 
 * Free software: MIT license
 * Documentation: https://py-multibase.readthedocs.io.
-* Python versions: 3.5, 3.6
+* Python versions: Python 3.10, 3.11, 3.12, 3.13, 3.14
 
 Installation
 ============

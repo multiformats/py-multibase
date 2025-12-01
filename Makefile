@@ -1,5 +1,4 @@
-.PHONY: clean clean-test clean-pyc clean-build docs help
-.DEFAULT_GOAL := help
+.PHONY: clean-pyc clean-build docs clean help pr
 define BROWSER_PYSCRIPT
 import os, webbrowser, sys
 try:
@@ -10,79 +9,86 @@ except:
 webbrowser.open("file://" + pathname2url(os.path.abspath(sys.argv[1])))
 endef
 export BROWSER_PYSCRIPT
-
-define PRINT_HELP_PYSCRIPT
-import re, sys
-
-for line in sys.stdin:
-	match = re.match(r'^([a-zA-Z_-]+):.*?## (.*)$$', line)
-	if match:
-		target, help = match.groups()
-		print("%-20s %s" % (target, help))
-endef
-export PRINT_HELP_PYSCRIPT
 BROWSER := python -c "$$BROWSER_PYSCRIPT"
 
 help:
-	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
+	@echo "Available commands:"
+	@echo "clean-build - remove build artifacts"
+	@echo "clean-pyc - remove Python file artifacts"
+	@echo "clean-test - remove test artifacts"
+	@echo "clean - run clean-build, clean-pyc, and clean-test"
+	@echo "setup - install development requirements"
+	@echo "fix - fix formatting & linting issues with ruff"
+	@echo "lint - run pre-commit hooks on all files"
+	@echo "typecheck - run mypy type checking"
+	@echo "test - run tests quickly with the default Python"
+	@echo "coverage - run tests with coverage report"
+	@echo "docs-ci - generate docs for CI"
+	@echo "docs - generate docs and open in browser"
+	@echo "servedocs - serve docs with live reload"
+	@echo "dist - build package and show contents"
+	@echo "pr - run clean, lint, and test (everything needed before creating a PR)"
 
-clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+clean: clean-build clean-pyc clean-test
 
-
-clean-build: ## remove build artifacts
+clean-build:
 	rm -fr build/
 	rm -fr dist/
 	rm -fr .eggs/
 	find . -name '*.egg-info' -exec rm -fr {} +
-	find . -name '*.egg' -exec rm -f {} +
+	find . -name '*.egg' -exec rm -rf {} +
 
-clean-pyc: ## remove Python file artifacts
+clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -fr {} +
 
-clean-test: ## remove test and coverage artifacts
-	# rm -fr .tox/
+clean-test:
+	rm -fr .tox/
+	rm -fr .mypy_cache
+	rm -fr .ruff_cache
 	rm -f .coverage
 	rm -fr htmlcov/
 
-lint: ## check style with flake8
-	flake8 multibase tests
+setup:
+	pip install -e ".[dev]"
 
-test: ## run tests quickly with the default Python
-	py.test --cov=multibase/ --cov-report=html --cov-report=term-missing --cov-branch
+lint:
+	pre-commit run --all-files
 
-test-all: ## run tests on every Python version with tox
-	tox
+fix:
+	python -m ruff check --fix
 
-coverage: ## check code coverage quickly with the default Python
-	coverage run --source multibase -m pytest
+typecheck:
+	pre-commit run mypy-local --all-files
+
+test:
+	python -m pytest tests
+
+coverage:
+	coverage run --source multibase -m pytest tests
 	coverage report -m
 	coverage html
 	$(BROWSER) htmlcov/index.html
 
-docs: ## generate Sphinx HTML documentation, including API docs
+docs-ci:
 	rm -f docs/multibase.rst
 	rm -f docs/modules.rst
+	sphinx-apidoc -o docs/ multibase
 	$(MAKE) -C docs clean
-	$(MAKE) -C docs html
+	mkdir -p docs/_static
+	$(MAKE) -C docs html SPHINXOPTS="-W"
+
+docs: docs-ci
 	$(BROWSER) docs/_build/html/index.html
 
-servedocs: docs ## compile the docs watching for changes
-	watchmedo shell-command -p '*.rst;*.py' -c '$(MAKE) -C docs html' -R -D .
+servedocs: docs
+	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
 
-verify_description:
-	python setup.py --long-description | rst2html.py > /dev/null
-
-release: clean verify_description ## package and upload a release
-	python setup.py sdist upload
-	python setup.py bdist_wheel upload
-
-dist: clean ## builds source and wheel package
-	python setup.py sdist
-	python setup.py bdist_wheel
+dist: clean
+	python -m build
 	ls -l dist
 
-install: clean ## install the package to the active Python's site-packages
-	python setup.py install
+pr: clean fix lint typecheck test
+	@echo "PR preparation complete! All checks passed."
