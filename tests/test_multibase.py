@@ -219,3 +219,15 @@ def test_decoder_composition():
     # Should fail with invalid data
     with pytest.raises(DecodingError):
         composed.decode("invalid")
+
+
+def test_composed_decoder_all_fail():
+    """Test ComposedDecoder error message when all decoders fail."""
+    decoder1 = Decoder()
+    decoder2 = Decoder()
+    composed = decoder1.or_(decoder2)
+
+    with pytest.raises(DecodingError) as excinfo:
+        composed.decode("invalid")
+    assert "All decoders failed" in str(excinfo.value)
+    assert "Last error" in str(excinfo.value)

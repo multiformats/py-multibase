@@ -183,8 +183,12 @@ def decode(data, return_encoding=False):
             return (codec.encoding, decoded)
         return decoded
     except (InvalidMultibaseStringError, UnsupportedEncodingError):
+        # Re-raise these specific exceptions as-is since they already provide
+        # appropriate context about what went wrong (invalid format or unsupported encoding)
         raise
     except Exception as e:
+        # Wrap all other exceptions (e.g., converter errors, invalid data)
+        # in DecodingError to provide consistent error handling
         raise DecodingError(f"Failed to decode multibase data: {e}") from e
 
 

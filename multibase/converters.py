@@ -92,18 +92,15 @@ class BaseByteStringConverter:
 
         result = encoded_bytes.getvalue()
 
-        # Add padding if needed
+        # Add padding if needed (RFC 4648)
         if self.pad:
             remainder = input_length % group_bytes
             if remainder > 0:
                 # For partial groups, we need to pad the output
                 # The padding makes the output length a multiple of output_chars
-                actual_output_len = len(result)
+                chars_produced = len(result)
                 # Calculate padding needed to reach next multiple of output_chars
-                padding_needed = (output_chars - (actual_output_len % output_chars)) % output_chars
-                if padding_needed == 0 and actual_output_len % output_chars != 0:
-                    # If we're not at a multiple, pad to the next multiple
-                    padding_needed = output_chars - (actual_output_len % output_chars)
+                padding_needed = output_chars - (chars_produced % output_chars)
                 result += ensure_bytes("=" * padding_needed)
 
         return result
@@ -164,12 +161,19 @@ class Base32StringConverter(BaseByteStringConverter):
 class Base256EmojiConverter:
     """Base256 emoji encoding using 256 unique emoji characters."""
 
-    def _get_emoji_chars(self):
+    def _get_emoji_chars(self) -> str:
         """Get the 256 emoji characters used in base256emoji.
 
         This generates a set of 256 unique emojis from various emoji ranges.
-        The actual specification may use a different set, but this provides
-        a working implementation.
+
+        Note: The multibase specification does not define a specific emoji set
+        for base256emoji. This implementation uses a consistent set of 256
+        emojis from standard Unicode emoji ranges. For compatibility with
+        other implementations, verify the emoji set matches or document
+        implementation-specific behavior.
+
+        :return: String containing exactly 256 unique emoji characters
+        :rtype: str
         """
         # Generate emojis from various Unicode ranges
         # Using a comprehensive set to ensure we have 256 unique emojis
@@ -241,16 +245,34 @@ class Base256EmojiConverter:
         # Create reverse mapping from emoji to byte value
         self.emoji_to_byte = {emoji: byte for byte, emoji in self.byte_to_emoji.items()}
 
-    def encode(self, bytes_):
-        """Encode bytes to emoji string."""
+    def encode(self, bytes_) -> bytes:
+        """Encode bytes to emoji string.
+
+        :param bytes_: Bytes to encode
+        :type bytes_: bytes or str
+        :return: UTF-8 encoded emoji string
+        :rtype: bytes
+        """
         bytes_ = ensure_bytes(bytes_)
         result = []
         for byte_val in bytes_:
             result.append(self.byte_to_emoji[byte_val])
         return "".join(result).encode("utf-8")
 
-    def decode(self, bytes_):
-        """Decode emoji string to bytes."""
+    def decode(self, bytes_) -> bytes:
+        """Decode emoji string to bytes.
+
+        Uses a greedy longest-match strategy to handle emojis that may consist
+        of multiple Unicode code points. Matches are attempted from longest
+        (up to 4 code points) to shortest (1 code point) to correctly handle
+        emoji sequences.
+
+        :param bytes_: UTF-8 encoded emoji string
+        :type bytes_: bytes or str
+        :return: Decoded bytes
+        :rtype: bytes
+        :raises ValueError: if an invalid emoji character is encountered
+        """
         bytes_ = ensure_bytes(bytes_, "utf8")
         # Decode UTF-8 to get emoji string
         emoji_str = bytes_.decode("utf-8")
@@ -261,6 +283,7 @@ class Base256EmojiConverter:
         while i < len(emoji_str):
             matched = False
             # Try matching from longest to shortest (up to 4 code points)
+            # This greedy approach ensures we correctly handle multi-code-point emojis
             for length in range(min(4, len(emoji_str) - i), 0, -1):
                 candidate = emoji_str[i : i + length]
                 if candidate in self.emoji_to_byte:
