@@ -159,90 +159,60 @@ class Base32StringConverter(BaseByteStringConverter):
 
 
 class Base256EmojiConverter:
-    """Base256 emoji encoding using 256 unique emoji characters."""
+    """Base256 emoji encoding using 256 unique emoji characters.
 
-    def _get_emoji_chars(self) -> str:
-        """Get the 256 emoji characters used in base256emoji.
+    This implementation uses the exact same hardcoded emoji alphabet as
+    js-multiformats and go-multibase reference implementations to ensure
+    full compatibility. The alphabet is curated from Unicode emoji frequency
+    data, excluding modifier-based emojis (such as flags) that are bigger
+    than one single code point.
+    """
 
-        This generates a set of 256 unique emojis from various emoji ranges.
-
-        Note: The multibase specification does not define a specific emoji set
-        for base256emoji. This implementation uses a consistent set of 256
-        emojis from standard Unicode emoji ranges. For compatibility with
-        other implementations, verify the emoji set matches or document
-        implementation-specific behavior.
-
-        :return: String containing exactly 256 unique emoji characters
-        :rtype: str
-        """
-        # Generate emojis from various Unicode ranges
-        # Using a comprehensive set to ensure we have 256 unique emojis
-        emojis = []
-
-        # Emoticons and faces (U+1F600-U+1F64F)
-        for code in range(0x1F600, 0x1F650):
-            try:
-                emojis.append(chr(code))
-            except (ValueError, OverflowError):
-                pass
-
-        # Various object emojis (U+1F300-U+1F5FF)
-        for code in range(0x1F300, 0x1F600):
-            try:
-                emojis.append(chr(code))
-            except (ValueError, OverflowError):
-                pass
-
-        # Food and drink (U+1F32D-U+1F37F)
-        for code in range(0x1F32D, 0x1F380):
-            try:
-                emojis.append(chr(code))
-            except (ValueError, OverflowError):
-                pass
-
-        # Activity and sports (U+1F3C0-U+1F3FF)
-        for code in range(0x1F3C0, 0x1F400):
-            try:
-                emojis.append(chr(code))
-            except (ValueError, OverflowError):
-                pass
-
-        # Symbols and pictographs (U+1F400-U+1F4FF)
-        for code in range(0x1F400, 0x1F500):
-            try:
-                emojis.append(chr(code))
-            except (ValueError, OverflowError):
-                pass
-
-        # Additional emojis to reach 256
-        # Using various other emoji ranges
-        additional_ranges = [
-            (0x1F500, 0x1F53D),  # Miscellaneous Symbols and Pictographs
-            (0x1F680, 0x1F6C0),  # Transport and Map Symbols
-            (0x1F900, 0x1F9FF),  # Supplemental Symbols and Pictographs
-        ]
-
-        for start, end in additional_ranges:
-            for code in range(start, end):
-                try:
-                    emojis.append(chr(code))
-                except (ValueError, OverflowError):
-                    pass
-                if len(emojis) >= 256:
-                    break
-            if len(emojis) >= 256:
-                break
-
-        # Ensure we have exactly 256
-        return "".join(emojis[:256])
+    # Hardcoded emoji alphabet matching js-multiformats and go-multibase
+    # This is the exact same alphabet used in reference implementations
+    # Source: js-multiformats/src/bases/base256emoji.ts and go-multibase/base256emoji.go
+    _EMOJI_ALPHABET = (
+        "🚀🪐☄🛰🌌"  # Space
+        "🌑🌒🌓🌔🌕🌖🌗🌘"  # Moon
+        "🌍🌏🌎"  # Earth
+        "🐉"  # Dragon
+        "☀"  # Sun
+        "💻🖥💾💿"  # Computer
+        # Rest from Unicode emoji frequency data (most used first)
+        "😂❤😍🤣😊🙏💕😭😘👍"
+        "😅👏😁🔥🥰💔💖💙😢🤔"
+        "😆🙄💪😉☺👌🤗💜😔😎"
+        "😇🌹🤦🎉💞✌✨🤷😱😌"
+        "🌸🙌😋💗💚😏💛🙂💓🤩"
+        "😄😀🖤😃💯🙈👇🎶😒🤭"
+        "❣😜💋👀😪😑💥🙋😞😩"
+        "😡🤪👊🥳😥🤤👉💃😳✋"
+        "😚😝😴🌟😬🙃🍀🌷😻😓"
+        "⭐✅🥺🌈😈🤘💦✔😣🏃"
+        "💐☹🎊💘😠☝😕🌺🎂🌻"
+        "😐🖕💝🙊😹🗣💫💀👑🎵"
+        "🤞😛🔴😤🌼😫⚽🤙☕🏆"
+        "🤫👈😮🙆🍻🍃🐶💁😲🌿"
+        "🧡🎁⚡🌞🎈❌✊👋😰🤨"
+        "😶🤝🚶💰🍓💢🤟🙁🚨💨"
+        "🤬✈🎀🍺🤓😙💟🌱😖👶"
+        "🥴▶➡❓💎💸⬇😨🌚🦋"
+        "😷🕺⚠🙅😟😵👎🤲🤠🤧"
+        "📌🔵💅🧐🐾🍒😗🤑🌊🤯"
+        "🐷☎💧😯💆👆🎤🙇🍑❄"
+        "🌴💣🐸💌📍🥀🤢👅💡💩"
+        "👐📸👻🤐🤮🎼🥵🚩🍎🍊"
+        "👼💍📣🥂"
+    )
 
     def __init__(self):
-        self.EMOJI_CHARS = self._get_emoji_chars()
-        if len(self.EMOJI_CHARS) != 256:
-            raise ValueError(f"EMOJI_CHARS must contain exactly 256 characters, got {len(self.EMOJI_CHARS)}")
-        # Create mapping from byte value to emoji
-        self.byte_to_emoji = {i: self.EMOJI_CHARS[i] for i in range(256)}
-        # Create reverse mapping from emoji to byte value
+        # Verify alphabet length
+        if len(self._EMOJI_ALPHABET) != 256:
+            raise ValueError(f"EMOJI_ALPHABET must contain exactly 256 characters, got {len(self._EMOJI_ALPHABET)}")
+        # Create mapping from byte value to emoji character
+        self.byte_to_emoji = {i: self._EMOJI_ALPHABET[i] for i in range(256)}
+        # Create reverse mapping from emoji character to byte value
+        # This matches the approach in js-multiformats and go-multibase
         self.emoji_to_byte = {emoji: byte for byte, emoji in self.byte_to_emoji.items()}
 
     def encode(self, bytes_) -> bytes:
@@ -262,10 +232,10 @@ class Base256EmojiConverter:
     def decode(self, bytes_) -> bytes:
         """Decode emoji string to bytes.
 
-        Uses a greedy longest-match strategy to handle emojis that may consist
-        of multiple Unicode code points. Matches are attempted from longest
-        (up to 4 code points) to shortest (1 code point) to correctly handle
-        emoji sequences.
+        Decodes character-by-character, matching the behavior of js-multiformats
+        and go-multibase reference implementations. Each emoji in the alphabet
+        is a single Unicode code point, so we can safely iterate character by
+        character.
 
         :param bytes_: UTF-8 encoded emoji string
         :type bytes_: bytes or str
@@ -277,22 +247,12 @@ class Base256EmojiConverter:
         # Decode UTF-8 to get emoji string
         emoji_str = bytes_.decode("utf-8")
         result = bytearray()
-        # Iterate through emoji characters
-        # We need to match emojis which may be multiple code points
-        i = 0
-        while i < len(emoji_str):
-            matched = False
-            # Try matching from longest to shortest (up to 4 code points)
-            # This greedy approach ensures we correctly handle multi-code-point emojis
-            for length in range(min(4, len(emoji_str) - i), 0, -1):
-                candidate = emoji_str[i : i + length]
-                if candidate in self.emoji_to_byte:
-                    result.append(self.emoji_to_byte[candidate])
-                    i += length
-                    matched = True
-                    break
-            if not matched:
-                raise ValueError(f"Invalid emoji character at position {i}: {emoji_str[i : i + 4]}")
+        # Iterate character by character (Python string iteration handles
+        # single code point emojis correctly, matching js-multiformats and go-multibase)
+        for char in emoji_str:
+            if char not in self.emoji_to_byte:
+                raise ValueError(f"Non-base256emoji character: {char}")
+            result.append(self.emoji_to_byte[char])
         return bytes(result)
 
 
