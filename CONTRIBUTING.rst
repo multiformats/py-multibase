@@ -96,6 +96,33 @@ Ready to contribute? Here's how to set up `multibase` for local development.
 
    If you installed pre-commit hooks (step 4), they will run automatically on commit.
 
+Development Workflow Commands
+-------------------------------
+
+The project provides several ``make`` targets to help with development:
+
+* ``make fix`` - Automatically fix formatting and linting issues using ruff.
+  Use this when you want to auto-fix code style issues.
+
+* ``make lint`` - Run all pre-commit hooks on all files to check for code quality
+  issues. This includes YAML/TOML validation, trailing whitespace checks, pyupgrade,
+  ruff linting and formatting, and mypy type checking.
+
+* ``make typecheck`` - Run mypy type checking only. Use this when you want to
+  quickly check for type errors without running all other checks.
+
+* ``make test`` - Run the test suite with pytest using the default Python version.
+  For testing across multiple Python versions, use ``tox`` instead.
+
+* ``make pr`` - Run a complete pre-PR check: clean build artifacts, fix formatting,
+  run linting, type checking, and tests. This is the recommended command to run
+  before submitting a pull request.
+
+* ``make coverage`` - Run tests with coverage reporting and open the HTML report
+  in your browser.
+
+For a full list of available commands, run ``make help``.
+
 7. Commit your changes and push your branch to GitHub::
 
     $ git add .
