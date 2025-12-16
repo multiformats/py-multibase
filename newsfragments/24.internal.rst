@@ -1,0 +1,1 @@
+Updated pyupgrade to v3.21.2 to fix Python 3.14 compatibility in linting checks.
