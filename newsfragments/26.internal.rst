@@ -1,0 +1,1 @@
+Fixed release process by adding automated release targets to Makefile, adding doctest support to documentation builds, fixing version string configuration, and creating comprehensive package test script. This aligns the release process with py-multihash PR 31 improvements.
