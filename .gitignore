@@ -40,7 +40,6 @@ htmlcov/
 .tox/
 .cache
 nosetests.xml
-*,cover
 .hypothesis/
 
 # Translations

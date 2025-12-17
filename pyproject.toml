@@ -38,7 +38,6 @@ dev = [
     "Sphinx>=5.0.0",
     "build>=0.9.0",
     "bump-my-version>=1.2.0",
-    "codecov",
     "mypy",
     "pre-commit",
     "pytest",
