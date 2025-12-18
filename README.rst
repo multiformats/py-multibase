@@ -9,9 +9,6 @@ py-multibase
 .. image:: https://github.com/multiformats/py-multibase/actions/workflows/tox.yml/badge.svg
         :target: https://github.com/multiformats/py-multibase/actions
 
-.. image:: https://codecov.io/gh/multiformats/py-multibase/branch/master/graph/badge.svg
-        :target: https://codecov.io/gh/multiformats/py-multibase
-
 .. image:: https://readthedocs.org/projects/py-multibase/badge/?version=stable
         :target: https://py-multibase.readthedocs.io/en/stable/?badge=stable
         :alt: Documentation Status

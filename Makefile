@@ -22,7 +22,6 @@ help:
 	@echo "lint - run pre-commit hooks on all files"
 	@echo "typecheck - run mypy type checking"
 	@echo "test - run tests quickly with the default Python"
-	@echo "coverage - run tests with coverage report"
 	@echo "docs-ci - generate docs for CI"
 	@echo "docs - generate docs and open in browser"
 	@echo "servedocs - serve docs with live reload"
@@ -48,7 +47,6 @@ clean-test:
 	rm -fr .tox/
 	rm -fr .mypy_cache
 	rm -fr .ruff_cache
-	rm -f .coverage
 	rm -fr htmlcov/
 
 setup:
@@ -65,12 +63,6 @@ typecheck:
 
 test:
 	python -m pytest tests
-
-coverage:
-	coverage run --source multibase -m pytest tests
-	coverage report -m
-	coverage html
-	$(BROWSER) htmlcov/index.html
 
 docs-ci:
 	rm -f docs/multibase.rst

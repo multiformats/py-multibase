@@ -118,9 +118,6 @@ The project provides several ``make`` targets to help with development:
   run linting, type checking, and tests. This is the recommended command to run
   before submitting a pull request.
 
-* ``make coverage`` - Run tests with coverage reporting and open the HTML report
-  in your browser.
-
 For a full list of available commands, run ``make help``.
 
 7. Commit your changes and push your branch to GitHub::
@@ -151,16 +148,76 @@ To run a subset of tests::
 
 $ pytest tests/test_multibase.py
 
-
-Deploying
+Releasing
 ---------
 
-A reminder for the maintainers on how to deploy.
-Make sure all your changes are committed (including an entry in HISTORY.rst).
-Then run::
+Releases are typically done from the ``master`` branch, except when releasing a beta (in
+which case the beta is released from ``master``, and the previous stable branch is
+released from said branch).
 
-$ bump-my-version bump patch # possible: major / minor / patch
-$ git push
-$ git push --tags
+Final test before each release
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-GitHub Actions will then deploy to PyPI if tests pass.
+Before releasing a new version, build and test the package that will be released:
+
+.. code:: sh
+
+    git checkout master && git pull
+    make package-test
+
+This will build the package and install it in a temporary virtual environment. Follow
+the instructions to activate the venv and test whatever you think is important.
+
+You can also preview the release notes:
+
+.. code:: sh
+
+    towncrier --draft
+
+Build the release notes
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Before bumping the version number, build the release notes. You must include the part of
+the version to bump (see below), which changes how the version number will show in the
+release notes.
+
+.. code:: sh
+
+    make notes bump=$$VERSION_PART_TO_BUMP$$
+
+If there are any errors, be sure to re-run make notes until it works.
+
+Push the release to github & pypi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After confirming that the release package looks okay, release a new version:
+
+.. code:: sh
+
+    make release bump=$$VERSION_PART_TO_BUMP$$
+
+This command will:
+
+- Bump the version number as specified wherever it appears in the repo.
+- Create a git commit and tag for the new version.
+- Build the package.
+- Push the commit and tag to github.
+- Push the new package files to pypi.
+
+Which version part to bump
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``$$VERSION_PART_TO_BUMP$$`` must be one of: ``major``, ``minor``, ``patch``, ``stage``,
+or ``devnum``.
+
+The version format for this repo is ``{major}.{minor}.{patch}`` for stable, and
+``{major}.{minor}.{patch}-{stage}.{devnum}`` for unstable (``stage`` can be alpha or
+beta).
+
+If you are in a beta version, ``make release bump=stage`` will switch to a stable.
+
+To issue an unstable version when the current version is stable, specify the new version
+explicitly, like ``make release bump="--new-version 4.0.0-alpha.1"``
+
+You can see what the result of bumping any particular version part would be with
+``bump-my-version show-bump``
