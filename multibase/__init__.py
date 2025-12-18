@@ -2,7 +2,7 @@
 
 __author__ = """Dhruv Baldawa"""
 __email__ = "dhruv@dhruvb.com"
-__version__ = "1.0.3"
+__version__ = "2.0.0"
 
 from .exceptions import (  # noqa: F401
     DecodingError,

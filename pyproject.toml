@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "py-multibase"
-version = "1.0.3"
+version = "2.0.0"
 description = "Multibase implementation for Python"
 readme = "README.rst"
 authors = [{ name = "Dhruv Baldawa", email = "dhruv@dhruvb.com" }]
@@ -31,7 +31,7 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/multiformats/py-multibase"
-Download = "https://github.com/multiformats/py-multibase/tarball/1.0.3"
+Download = "https://github.com/multiformats/py-multibase/tarball/2.0.0"
 
 [project.optional-dependencies]
 dev = [
@@ -118,7 +118,7 @@ name = "Removals"
 showcontent = true
 
 [tool.bumpversion]
-current_version = "1.0.3"
+current_version = "2.0.0"
 parse = """
     (?P<major>\\d+)
     \\.(?P<minor>\\d+)
