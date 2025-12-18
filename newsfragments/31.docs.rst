@@ -1,0 +1,1 @@
+Fixed Read the Docs build failures by updating deprecated Sphinx settings and adding API documentation generation.

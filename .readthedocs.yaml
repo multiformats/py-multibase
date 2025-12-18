@@ -4,6 +4,9 @@ build:
   os: ubuntu-24.04
   tools:
     python: "3.10"
+  commands:
+    - rm -f docs/multibase.rst docs/modules.rst
+    - sphinx-apidoc -o docs/ multibase
 
 sphinx:
   configuration: docs/conf.py
