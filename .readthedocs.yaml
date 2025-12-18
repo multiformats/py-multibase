@@ -5,7 +5,6 @@ build:
   tools:
     python: "3.10"
   commands:
-    - python -m pip install sphinx
     - rm -f docs/multibase.rst docs/modules.rst
     - python -m sphinx.ext.apidoc -o docs/ multibase
 
