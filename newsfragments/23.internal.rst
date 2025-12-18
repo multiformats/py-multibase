@@ -1,1 +1,0 @@
-Dropped ``coverage`` and ``codecov`` references, no longer using it.
