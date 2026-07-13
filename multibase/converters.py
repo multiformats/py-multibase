@@ -28,8 +28,8 @@ class BaseStringConverter(BaseConverter):
             value += self.digits.index(chr(x)) * base ** (length - (i + 1))
         return value
 
-    def decode(self, bytes):
-        bytes_str = bytes.decode("utf-8") if isinstance(bytes, bytes) else bytes
+    def decode(self, data):
+        bytes_str = data.decode("utf-8") if isinstance(data, bytes) else data
         if len(bytes_str) == 0:
             return b""
 
@@ -37,7 +37,7 @@ class BaseStringConverter(BaseConverter):
         if leading_zeros == len(bytes_str):
             return b"\x00" * leading_zeros
 
-        decoded_int = self.bytes_to_int(bytes)
+        decoded_int = self.bytes_to_int(data)
         # See https://docs.python.org/3.5/library/stdtypes.html#int.to_bytes for more about the magical expression
         # below
         decoded_data = decoded_int.to_bytes((decoded_int.bit_length() + 7) // 8, byteorder="big")
