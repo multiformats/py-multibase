@@ -128,6 +128,20 @@ def test_decode(_, data, encoded_data):
     assert decode(encoded_data) == ensure_bytes(data)
 
 
+def test_decode_base32_case_insensitive():
+    # base32 (prefix 'b', lowercase alphabet), decoding uppercase payload
+    assert decode("bMZXW6") == b"foo"
+
+    # base32upper (prefix 'B', uppercase alphabet), decoding lowercase payload
+    assert decode("Bmzxw6") == b"foo"
+
+    # base32pad (prefix 'c', lowercase alphabet), decoding uppercase payload
+    assert decode("cMZXW6====") == b"foo"
+
+    # base32hex (prefix 'v', lowercase alphabet), decoding uppercase payload
+    assert decode("vCPNMU") == b"foo"
+
+
 @pytest.mark.parametrize("encoded_data", INCORRECT_ENCODED_DATA)
 def test_decode_incorrect_encoding(encoded_data):
     with pytest.raises(InvalidMultibaseStringError) as excinfo:

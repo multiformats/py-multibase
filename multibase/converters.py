@@ -155,7 +155,12 @@ class Base32StringConverter(BaseByteStringConverter):
         return self._encode_bytes(ensure_bytes(bytes), 5, 8, 5, 8)
 
     def decode(self, bytes):
-        return self._decode_bytes(ensure_bytes(bytes), 8, 5, 8)
+        data = ensure_bytes(bytes)
+        if self.digits.islower():
+            data = data.lower()
+        elif self.digits.isupper():
+            data = data.upper()
+        return self._decode_bytes(data, 8, 5, 8)
 
 
 class Base256EmojiConverter:

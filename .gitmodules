@@ -1,0 +1,3 @@
+[submodule "multibase-spec"]
+	path = multibase-spec
+	url = https://github.com/multiformats/multibase
