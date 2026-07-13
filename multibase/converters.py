@@ -7,8 +7,17 @@ from morphys import ensure_bytes
 
 class BaseStringConverter(BaseConverter):
     def encode(self, bytes):
+        bytes = ensure_bytes(bytes)
+        if len(bytes) == 0:
+            return b""
+
+        leading_zeros = len(bytes) - len(bytes.lstrip(b"\x00"))
+        if leading_zeros == len(bytes):
+            return str(self.digits[0] * leading_zeros).encode("utf-8")
+
         number = int.from_bytes(bytes, byteorder="big", signed=False)
-        return ensure_bytes(super().encode(number))
+        encoded = super().encode(number)
+        return ensure_bytes(self.digits[0] * leading_zeros + encoded)
 
     def bytes_to_int(self, bytes):
         length = len(bytes)
@@ -20,11 +29,19 @@ class BaseStringConverter(BaseConverter):
         return value
 
     def decode(self, bytes):
+        bytes_str = bytes.decode("utf-8") if isinstance(bytes, bytes) else bytes
+        if len(bytes_str) == 0:
+            return b""
+
+        leading_zeros = len(bytes_str) - len(bytes_str.lstrip(self.digits[0]))
+        if leading_zeros == len(bytes_str):
+            return b"\x00" * leading_zeros
+
         decoded_int = self.bytes_to_int(bytes)
         # See https://docs.python.org/3.5/library/stdtypes.html#int.to_bytes for more about the magical expression
         # below
         decoded_data = decoded_int.to_bytes((decoded_int.bit_length() + 7) // 8, byteorder="big")
-        return decoded_data
+        return b"\x00" * leading_zeros + decoded_data
 
 
 class Base16StringConverter(BaseStringConverter):
@@ -44,12 +61,7 @@ class Base16StringConverter(BaseStringConverter):
             data_str = data.decode("utf-8")
         else:
             data_str = data
-        # Convert to match our digits case
-        if self.uppercase:
-            data_str = data_str.upper()
-        else:
-            data_str = data_str.lower()
-        return super().decode(data_str.encode("utf-8"))
+        return bytes.fromhex(data_str)
 
 
 class BaseByteStringConverter:
