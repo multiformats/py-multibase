@@ -67,7 +67,7 @@ test:
 docs-ci:
 	rm -f docs/multibase.rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ multibase
+	python -m sphinx.ext.apidoc -o docs/ multibase
 	$(MAKE) -C docs clean
 	mkdir -p docs/_static
 	$(MAKE) -C docs html SPHINXOPTS="-W"
@@ -92,8 +92,11 @@ validate-newsfragments:
 	towncrier build --draft --version preview
 
 build-docs:
-	sphinx-apidoc -o docs/ . "*conftest*" tests/
+	rm -f docs/multibase.rst
+	rm -f docs/modules.rst
+	python -m sphinx.ext.apidoc -o docs/ multibase
 	$(MAKE) -C docs clean
+	mkdir -p docs/_static
 	$(MAKE) -C docs html
 	$(MAKE) -C docs doctest
 

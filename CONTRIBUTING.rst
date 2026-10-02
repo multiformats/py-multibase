@@ -114,6 +114,11 @@ The project provides several ``make`` targets to help with development:
 * ``make test`` - Run the test suite with pytest using the default Python version.
   For testing across multiple Python versions, use ``tox`` instead.
 
+* ``make docs`` / ``make docs-ci`` - Build the Sphinx documentation locally (with
+  warnings treated as errors). API stub pages are generated with
+  ``python -m sphinx.ext.apidoc`` against the ``multibase`` package, matching
+  the Read the Docs ``pre_build`` job.
+
 * ``make pr`` - Run a complete pre-PR check: clean build artifacts, fix formatting,
   run linting, type checking, and tests. This is the recommended command to run
   before submitting a pull request.
