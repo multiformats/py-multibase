@@ -1,0 +1,1 @@
+Name-based APIs (``encode``, ``is_encoding_supported``, ``get_encoding_info``, and ``Encoder``) no longer treat multibase prefix bytes as encoding names. Prefix codes continue to be resolved via ``get_codec`` / ``decode``.
