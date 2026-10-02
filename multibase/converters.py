@@ -7,8 +7,20 @@ from morphys import ensure_bytes
 
 class BaseStringConverter(BaseConverter):
     def encode(self, bytes):
+        # Count leading zero bytes
+        leading_zeros = 0
+        for b in bytes:
+            if b == 0:
+                leading_zeros += 1
+            else:
+                break
+
         number = int.from_bytes(bytes, byteorder="big", signed=False)
-        return ensure_bytes(super().encode(number))
+        encoded = ensure_bytes(super().encode(number))
+
+        # Prepend the zero-character for each leading zero byte
+        zero_char = ensure_bytes(self.digits[0])
+        return zero_char * leading_zeros + encoded
 
     def bytes_to_int(self, bytes):
         length = len(bytes)
@@ -20,11 +32,23 @@ class BaseStringConverter(BaseConverter):
         return value
 
     def decode(self, bytes):
+        # Count leading zero characters
+        zero_char = self.digits[0]
+        leading_zeros = 0
+
+        decoded_str = bytes.decode("utf-8") if hasattr(bytes, "decode") else bytes
+        for ch in decoded_str:
+            if ch == zero_char:
+                leading_zeros += 1
+            else:
+                break
+
         decoded_int = self.bytes_to_int(bytes)
         # See https://docs.python.org/3.5/library/stdtypes.html#int.to_bytes for more about the magical expression
         # below
         decoded_data = decoded_int.to_bytes((decoded_int.bit_length() + 7) // 8, byteorder="big")
-        return decoded_data
+
+        return b"\x00" * leading_zeros + decoded_data
 
 
 class Base16StringConverter(BaseStringConverter):
@@ -39,17 +63,12 @@ class Base16StringConverter(BaseStringConverter):
         return ensure_bytes(result)
 
     def decode(self, data):
-        # Base16 decode is case-insensitive, normalize to our digits case
+        # Base16 decode is case-insensitive
         if isinstance(data, bytes):
             data_str = data.decode("utf-8")
         else:
             data_str = data
-        # Convert to match our digits case
-        if self.uppercase:
-            data_str = data_str.upper()
-        else:
-            data_str = data_str.lower()
-        return super().decode(data_str.encode("utf-8"))
+        return bytes.fromhex(data_str)
 
 
 class BaseByteStringConverter:

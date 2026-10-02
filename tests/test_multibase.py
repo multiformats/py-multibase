@@ -105,6 +105,17 @@ TEST_FIXTURES = (
     ("base64urlpad", "foob", "UZm9vYg=="),
     ("base64urlpad", "fooba", "UZm9vYmE="),
     ("base64urlpad", "foobar", "UZm9vYmFy"),
+    (
+        "base2",
+        "\x00\x00yes mani !",
+        "0001111001011001010111001100100000011011010110000101101110011010010010000000100001",
+    ),
+    ("base8", "\x00\x00yes mani !", "700171312714403326055632220041"),
+    ("base10", "\x00\x00yes mani !", "900573277761329450583662625"),
+    ("base36", "\x00\x00yes mani !", "k002lcpzo5yikidynfl"),
+    ("base32z", "\x00\x00yes mani !", "hyyxf1zgedpcfzg1ebb"),
+    ("base58btc", "\x00\x00yes mani !", "z117paNL19xttacUY"),
+    ("base58flickr", "\x00\x00yes mani !", "Z117Pznk19XTTzBtx"),
 )
 
 
