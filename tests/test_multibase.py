@@ -222,6 +222,7 @@ def test_encoder_class():
     """Test Encoder class."""
     encoder = Encoder("base64")
     assert encoder.encoding == "base64"
+    assert encoder.code == b"m"
 
     encoded = encoder.encode("hello")
     assert encoded.startswith(b"m")
