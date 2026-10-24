@@ -18,6 +18,7 @@ from .multibase import (  # noqa: F401
     Encoding,
     decode,
     encode,
+    encoder_by_name,
     get_codec,
     get_encoding_info,
     is_encoded,

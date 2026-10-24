@@ -201,6 +201,27 @@ def decode(data, return_encoding=False):
         raise DecodingError(f"Failed to decode multibase data: {e}") from e
 
 
+def encoder_by_name(name_or_prefix):
+    """
+    Create an Encoder from a name or single-character prefix.
+
+    :param name_or_prefix: encoding name or prefix character
+    :type name_or_prefix: str
+    :return: an Encoder instance
+    :rtype: Encoder
+    :raises UnsupportedEncodingError: if the encoding is not supported
+    """
+    if name_or_prefix in _ENCODINGS_BY_NAME:
+        return Encoder(name_or_prefix)
+
+    prefix_bytes = name_or_prefix.encode("utf-8")
+    codec = _ENCODINGS_BY_CODE.get(prefix_bytes)
+    if codec is not None:
+        return Encoder(codec.encoding)
+
+    raise UnsupportedEncodingError(f"Encoding {name_or_prefix!r} not supported.")
+
+
 class Encoder:
     """Reusable encoder for a specific encoding."""
 
