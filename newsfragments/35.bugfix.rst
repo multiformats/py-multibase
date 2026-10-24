@@ -1,0 +1,1 @@
+Preserve leading zero bytes when encoding and decoding integer-based encodings such as ``base58btc``. ``BaseStringConverter`` now emits one alphabet zero-character per leading ``0x00`` byte and restores them on decode, and base16 decoding uses ``bytes.fromhex`` so it stays case-insensitive.
