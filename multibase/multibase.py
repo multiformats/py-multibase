@@ -217,6 +217,16 @@ class Encoder:
         self.encoding = encoding
         self._codec = _ENCODINGS_BY_NAME[encoding]
 
+    @property
+    def code(self) -> bytes:
+        """
+        The multibase prefix byte for this encoding.
+
+        :return: prefix byte
+        :rtype: bytes
+        """
+        return self._codec.code
+
     def encode(self, data):
         """
         Encode data using this encoder's encoding.

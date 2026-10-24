@@ -1,0 +1,1 @@
+Add a read-only ``Encoder.code`` property exposing the multibase prefix byte of an encoder's encoding.
