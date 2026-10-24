@@ -41,6 +41,7 @@ dev = [
     "mypy",
     "pre-commit",
     "pytest",
+    "pytest-benchmark",
     "pytest-runner",
     "ruff",
     "towncrier>=24,<25",
