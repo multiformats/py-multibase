@@ -1,0 +1,1 @@
+Remove the unused ``six`` runtime dependency; ``py-multibase`` requires Python 3.10 or newer.
