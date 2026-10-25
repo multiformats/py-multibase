@@ -1,0 +1,1 @@
+Renamed converter parameters that shadowed the builtin ``bytes`` and corrected the Base16 decode comment (no behavior change).
