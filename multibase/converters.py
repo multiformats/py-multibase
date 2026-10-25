@@ -6,25 +6,25 @@ from morphys import ensure_bytes
 
 
 class BaseStringConverter(BaseConverter):
-    def encode(self, bytes):
-        bytes = ensure_bytes(bytes)
-        if len(bytes) == 0:
+    def encode(self, data):
+        data = ensure_bytes(data)
+        if len(data) == 0:
             return b""
 
-        leading_zeros = len(bytes) - len(bytes.lstrip(b"\x00"))
-        if leading_zeros == len(bytes):
+        leading_zeros = len(data) - len(data.lstrip(b"\x00"))
+        if leading_zeros == len(data):
             return str(self.digits[0] * leading_zeros).encode("utf-8")
 
-        number = int.from_bytes(bytes, byteorder="big", signed=False)
+        number = int.from_bytes(data, byteorder="big", signed=False)
         encoded = super().encode(number)
         return ensure_bytes(self.digits[0] * leading_zeros + encoded)
 
-    def bytes_to_int(self, bytes):
-        length = len(bytes)
+    def bytes_to_int(self, data):
+        length = len(data)
         base = len(self.digits)
         value = 0
 
-        for i, x in enumerate(bytes):
+        for i, x in enumerate(data):
             value += self.digits.index(chr(x)) * base ** (length - (i + 1))
         return value
 
@@ -49,14 +49,14 @@ class Base16StringConverter(BaseStringConverter):
         super().__init__(digits)
         self.uppercase = digits.isupper()
 
-    def encode(self, bytes):
-        result = "".join([f"{byte:02x}" for byte in bytes])
+    def encode(self, data):
+        result = "".join([f"{byte:02x}" for byte in data])
         if self.uppercase:
             result = result.upper()
         return ensure_bytes(result)
 
     def decode(self, data):
-        # Base16 decode is case-insensitive, normalize to our digits case
+        # Case-insensitive via bytes.fromhex (accepts both upper and lower hex digits)
         if isinstance(data, bytes):
             data_str = data.decode("utf-8")
         else:
@@ -147,27 +147,27 @@ class BaseByteStringConverter:
 
         return decoded_bytes.getvalue()
 
-    def encode(self, bytes):
+    def encode(self, data):
         raise NotImplementedError
 
-    def decode(self, bytes):
+    def decode(self, data):
         return NotImplementedError
 
 
 class Base64StringConverter(BaseByteStringConverter):
-    def encode(self, bytes):
-        return self._encode_bytes(ensure_bytes(bytes), 3, 8, 6, 4)
+    def encode(self, data):
+        return self._encode_bytes(ensure_bytes(data), 3, 8, 6, 4)
 
-    def decode(self, bytes):
-        return self._decode_bytes(ensure_bytes(bytes), 4, 6, 8)
+    def decode(self, data):
+        return self._decode_bytes(ensure_bytes(data), 4, 6, 8)
 
 
 class Base32StringConverter(BaseByteStringConverter):
-    def encode(self, bytes):
-        return self._encode_bytes(ensure_bytes(bytes), 5, 8, 5, 8)
+    def encode(self, data):
+        return self._encode_bytes(ensure_bytes(data), 5, 8, 5, 8)
 
-    def decode(self, bytes):
-        data = ensure_bytes(bytes)
+    def decode(self, data):
+        data = ensure_bytes(data)
         if self.digits.islower():
             data = data.lower()
         elif self.digits.isupper():
