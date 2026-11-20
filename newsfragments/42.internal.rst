@@ -1,0 +1,1 @@
+Add ``pytest-benchmark`` benchmarks for encoding, decoding and round-tripping every supported encoding.
