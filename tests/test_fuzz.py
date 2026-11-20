@@ -30,6 +30,7 @@ def test_roundtrip_never_crashes(data):
     for enc in ENCODINGS:
         try:
             encoded = encode(enc.encoding, data)
-            decode(encoded)
+            decoded = decode(encoded)
+            assert decoded == data
         except Exception:
             pass
