@@ -128,7 +128,8 @@ def is_encoded(data):
     try:
         get_codec(data)
         return True
-    except (ValueError, InvalidMultibaseStringError):
+    except ValueError:
+        # InvalidMultibaseStringError subclasses ValueError
         return False
 
 
