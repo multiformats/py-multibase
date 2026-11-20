@@ -235,6 +235,7 @@ def test_encoder_by_name():
     """Test encoder_by_name factory function."""
     enc1 = encoder_by_name("base16")
     assert enc1.encoding == "base16"
+    assert enc1.encode(b"hi").startswith(b"f")
 
     enc2 = encoder_by_name("f")
     assert enc2.encoding == "base16"
@@ -247,6 +248,12 @@ def test_encoder_by_name():
 
     with pytest.raises(UnsupportedEncodingError):
         encoder_by_name("?")
+
+    with pytest.raises(TypeError):
+        encoder_by_name(b"f")
+
+    with pytest.raises(TypeError):
+        encoder_by_name(None)
 
 
 def test_decoder_class():

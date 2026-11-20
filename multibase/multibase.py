@@ -210,8 +210,12 @@ def encoder_by_name(name_or_prefix):
     :type name_or_prefix: str
     :return: an Encoder instance
     :rtype: Encoder
+    :raises TypeError: if ``name_or_prefix`` is not a ``str``
     :raises UnsupportedEncodingError: if the encoding is not supported
     """
+    if not isinstance(name_or_prefix, str):
+        raise TypeError(f"name_or_prefix must be str, got {type(name_or_prefix).__name__}")
+
     if name_or_prefix in _ENCODINGS_BY_NAME:
         return Encoder(name_or_prefix)
 
