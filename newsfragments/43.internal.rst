@@ -1,0 +1,1 @@
+Add Hypothesis-based fuzz tests that exercise the decoder with arbitrary binary and text input.
