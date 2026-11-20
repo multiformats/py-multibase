@@ -1,0 +1,1 @@
+Add ``encoder_by_name()``, which constructs an :class:`~multibase.Encoder` from an encoding name or its single-character prefix, and export it from the ``multibase`` package.

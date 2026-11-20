@@ -20,5 +20,7 @@ data by :func:`get_codec` and :func:`decode`, not passed as encoding names.
 
 .. autofunction:: get_encoding_info
 
+.. autofunction:: encoder_by_name
+
 .. autoclass:: Encoder
    :members:

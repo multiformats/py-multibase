@@ -13,6 +13,7 @@ from multibase import (
     UnsupportedEncodingError,
     decode,
     encode,
+    encoder_by_name,
     get_codec,
     get_encoding_info,
     is_encoded,
@@ -229,6 +230,31 @@ def test_encoder_class():
 
     with pytest.raises(UnsupportedEncodingError):
         Encoder("base999")
+
+
+def test_encoder_by_name():
+    """Test encoder_by_name factory function."""
+    enc1 = encoder_by_name("base16")
+    assert enc1.encoding == "base16"
+    assert enc1.encode(b"hi").startswith(b"f")
+
+    enc2 = encoder_by_name("f")
+    assert enc2.encoding == "base16"
+
+    enc3 = encoder_by_name("🚀")
+    assert enc3.encoding == "base256emoji"
+
+    with pytest.raises(UnsupportedEncodingError):
+        encoder_by_name("base999")
+
+    with pytest.raises(UnsupportedEncodingError):
+        encoder_by_name("?")
+
+    with pytest.raises(TypeError):
+        encoder_by_name(b"f")
+
+    with pytest.raises(TypeError):
+        encoder_by_name(None)
 
 
 def test_decoder_class():
