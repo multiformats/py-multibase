@@ -20,7 +20,7 @@ help:
 	@echo "setup - install development requirements"
 	@echo "fix - fix formatting & linting issues with ruff"
 	@echo "lint - run pre-commit hooks on all files"
-	@echo "typecheck - run mypy type checking"
+	@echo "typecheck - run mypy and pyrefly type checking"
 	@echo "test - run tests quickly with the default Python"
 	@echo "docs-ci - generate docs for CI"
 	@echo "docs - generate docs and open in browser"
@@ -59,7 +59,7 @@ fix:
 	python -m ruff check --fix
 
 typecheck:
-	pre-commit run mypy-local --all-files
+	pre-commit run mypy-local --all-files && pre-commit run pyrefly-local --all-files
 
 test:
 	python -m pytest tests
@@ -67,7 +67,7 @@ test:
 docs-ci:
 	rm -f docs/multibase.rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ multibase
+	python -m sphinx.ext.apidoc -o docs/ multibase
 	$(MAKE) -C docs clean
 	mkdir -p docs/_static
 	$(MAKE) -C docs html SPHINXOPTS="-W"
@@ -92,8 +92,11 @@ validate-newsfragments:
 	towncrier build --draft --version preview
 
 build-docs:
-	sphinx-apidoc -o docs/ . "*conftest*" tests/
+	rm -f docs/multibase.rst
+	rm -f docs/modules.rst
+	python -m sphinx.ext.apidoc -o docs/ multibase
 	$(MAKE) -C docs clean
+	mkdir -p docs/_static
 	$(MAKE) -C docs html
 	$(MAKE) -C docs doctest
 

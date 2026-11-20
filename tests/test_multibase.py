@@ -13,6 +13,7 @@ from multibase import (
     UnsupportedEncodingError,
     decode,
     encode,
+    get_codec,
     get_encoding_info,
     is_encoded,
     is_encoding_supported,
@@ -128,6 +129,20 @@ def test_decode(_, data, encoded_data):
     assert decode(encoded_data) == ensure_bytes(data)
 
 
+def test_decode_base32_case_insensitive():
+    # base32 (prefix 'b', lowercase alphabet), decoding uppercase payload
+    assert decode("bMZXW6") == b"foo"
+
+    # base32upper (prefix 'B', uppercase alphabet), decoding lowercase payload
+    assert decode("Bmzxw6") == b"foo"
+
+    # base32pad (prefix 'c', lowercase alphabet), decoding uppercase payload
+    assert decode("cMZXW6====") == b"foo"
+
+    # base32hex (prefix 'v', lowercase alphabet), decoding uppercase payload
+    assert decode("vCPNMU") == b"foo"
+
+
 @pytest.mark.parametrize("encoded_data", INCORRECT_ENCODED_DATA)
 def test_decode_incorrect_encoding(encoded_data):
     with pytest.raises(InvalidMultibaseStringError) as excinfo:
@@ -157,6 +172,9 @@ def test_is_encoding_supported():
     assert is_encoding_supported("base64")
     assert is_encoding_supported("base16")
     assert not is_encoding_supported("base999")
+    # Prefix bytes are not encoding names
+    assert not is_encoding_supported(b"f")
+    assert not is_encoding_supported(b"m")
 
 
 def test_list_encodings():
@@ -178,6 +196,26 @@ def test_get_encoding_info():
 
     with pytest.raises(UnsupportedEncodingError):
         get_encoding_info("base999")
+
+    with pytest.raises(UnsupportedEncodingError):
+        get_encoding_info(b"m")
+
+
+def test_name_apis_reject_prefix_bytes():
+    """Name-based APIs must not accept multibase prefix bytes as encoding names."""
+    with pytest.raises(UnsupportedEncodingError):
+        encode(b"f", b"hello")
+
+    with pytest.raises(UnsupportedEncodingError):
+        Encoder(b"m")
+
+
+def test_get_codec_resolves_prefix_codes():
+    """get_codec still resolves single-byte and emoji prefixes via the code map."""
+    assert get_codec(b"f796573").encoding == "base16"
+    assert get_codec(b"mSGVsbG8=").encoding == "base64"
+    emoji_encoded = encode("base256emoji", b"hi")
+    assert get_codec(emoji_encoded).encoding == "base256emoji"
 
 
 def test_encoder_class():

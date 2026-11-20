@@ -40,6 +40,7 @@ dev = [
     "bump-my-version>=1.2.0",
     "mypy",
     "pre-commit",
+    "pyrefly==1.5.0",
     "pytest",
     "pytest-runner",
     "ruff",
@@ -154,6 +155,11 @@ filename = "pyproject.toml"
 search = "Download = \"https://github.com/multiformats/py-multibase/tarball/{current_version}\""
 replace = "Download = \"https://github.com/multiformats/py-multibase/tarball/{new_version}\""
 
+[[tool.bumpversion.files]]
+filename = "version.json"
+search = '"version": "v{current_version}"'
+replace = '"version": "v{new_version}"'
+
 [tool.mypy]
 python_version = "3.10"
 check_untyped_defs = false
@@ -171,3 +177,15 @@ warn_redundant_casts = false
 warn_return_any = false
 warn_unused_configs = true
 warn_unused_ignores = false
+
+[tool.pyrefly]
+python_version = "3.10"
+project_includes = ["multibase"]
+project_excludes = [
+    "spec/**",
+    ".venv/**",
+    "docs/**",
+    "build/**",
+    "dist/**",
+    "tests/**",
+]
