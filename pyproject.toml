@@ -41,6 +41,7 @@ dev = [
     "pre-commit",
     "pyrefly==1.5.0",
     "pytest",
+    "pytest-benchmark",
     "pytest-runner",
     "ruff",
     "towncrier>=24,<25",
