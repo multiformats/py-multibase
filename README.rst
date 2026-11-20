@@ -57,10 +57,14 @@ Sample Usage
     b'hello world'
 
     >>> # Using reusable Encoder/Decoder classes
-    >>> from multibase import Encoder, Decoder
+    >>> from multibase import Encoder, Decoder, encoder_by_name
     >>> encoder = Encoder('base64')
     >>> encoded1 = encoder.encode('data1')
     >>> encoded2 = encoder.encode('data2')
+
+    >>> # Or resolve by name or single-character prefix
+    >>> encoder = encoder_by_name('base64')
+    >>> encoder = encoder_by_name('m')
 
     >>> decoder = Decoder()
     >>> decoded = decoder.decode(encoded1)
