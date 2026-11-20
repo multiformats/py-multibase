@@ -1,0 +1,1 @@
+Aligned local documentation builds with Read the Docs by using ``python -m sphinx.ext.apidoc`` for the ``multibase`` package.

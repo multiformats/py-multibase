@@ -27,3 +27,11 @@ repos:
         always_run: true
         pass_filenames: false
         require_serial: false
+  - repo: local
+    hooks:
+      - id: pyrefly-local
+        name: run pyrefly typecheck locally
+        entry: pyrefly check
+        language: system
+        always_run: true
+        pass_filenames: false
