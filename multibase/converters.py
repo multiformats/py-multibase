@@ -6,8 +6,8 @@ from morphys import ensure_bytes
 
 
 class BaseStringConverter(BaseConverter):
-    def encode(self, data):
-        data = ensure_bytes(data)
+    def encode(self, number):
+        data = ensure_bytes(number)
         if len(data) == 0:
             return b""
 
@@ -15,8 +15,8 @@ class BaseStringConverter(BaseConverter):
         if leading_zeros == len(data):
             return str(self.digits[0] * leading_zeros).encode("utf-8")
 
-        number = int.from_bytes(data, byteorder="big", signed=False)
-        encoded = super().encode(number)
+        as_int = int.from_bytes(data, byteorder="big", signed=False)
+        encoded = super().encode(as_int)
         return ensure_bytes(self.digits[0] * leading_zeros + encoded)
 
     def bytes_to_int(self, data):
@@ -28,7 +28,8 @@ class BaseStringConverter(BaseConverter):
             value += self.digits.index(chr(x)) * base ** (length - (i + 1))
         return value
 
-    def decode(self, data):
+    def decode(self, number):
+        data = number
         bytes_str = data.decode("utf-8") if isinstance(data, bytes) else data
         if len(bytes_str) == 0:
             return b""
@@ -49,18 +50,18 @@ class Base16StringConverter(BaseStringConverter):
         super().__init__(digits)
         self.uppercase = digits.isupper()
 
-    def encode(self, data):
-        result = "".join([f"{byte:02x}" for byte in data])
+    def encode(self, number):
+        result = "".join([f"{byte:02x}" for byte in number])
         if self.uppercase:
             result = result.upper()
         return ensure_bytes(result)
 
-    def decode(self, data):
+    def decode(self, number):
         # Case-insensitive via bytes.fromhex (accepts both upper and lower hex digits)
-        if isinstance(data, bytes):
-            data_str = data.decode("utf-8")
+        if isinstance(number, bytes):
+            data_str = number.decode("utf-8")
         else:
-            data_str = data
+            data_str = number
         return bytes.fromhex(data_str)
 
 
@@ -96,7 +97,10 @@ class BaseByteStringConverter:
             binstringfmt = f"{{:0{encoding_bits}b}}"
             binstring = "".join([binstringfmt.format(x) for x in byte_])
             # break the 24 bit length string into pieces of 6 bits each and convert them to integer
-            digits = (int("".join(x), 2) for x in self._chunk_with_padding(binstring, decoding_bits, "0"))
+            digits = (
+                int("".join(ch if ch is not None else "0" for ch in x), 2)
+                for x in self._chunk_with_padding(binstring, decoding_bits, "0")
+            )
 
             for digit in digits:
                 # convert binary representation to an integer
@@ -151,7 +155,7 @@ class BaseByteStringConverter:
         raise NotImplementedError
 
     def decode(self, data):
-        return NotImplementedError
+        raise NotImplementedError
 
 
 class Base64StringConverter(BaseByteStringConverter):
