@@ -1,0 +1,1 @@
+Added ``version.json`` so ecosystem tooling can track the library version consistently with go-multibase.

@@ -1,0 +1,1 @@
+Fix integer-based encodings dropping leading ``0x00`` bytes on encode and decode, and add round-trip tests covering every supported encoding with random, all-zero, all-ones and leading-zero data.
