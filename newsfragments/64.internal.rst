@@ -1,1 +1,0 @@
-Adopt pinned ``pyrefly==1.5.0`` typechecking alongside mypy for tooling parity with sibling packages.

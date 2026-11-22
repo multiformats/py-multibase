@@ -1,1 +1,0 @@
-Added tests that verify invalid alphabet input is rejected for every encoding.

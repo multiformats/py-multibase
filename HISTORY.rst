@@ -3,6 +3,45 @@ History
 
 .. towncrier release notes start
 
+py-multibase v2.1.0 (2026-11-22)
+--------------------------------
+
+Bugfixes
+~~~~~~~~
+
+- Fix integer-based encodings dropping leading ``0x00`` bytes on encode and decode, and add round-trip tests covering every supported encoding with random, all-zero, all-ones and leading-zero data. (`#40 <https://github.com/multiformats/py-multibase/issues/40>`__)
+- Name-based APIs (``encode``, ``is_encoding_supported``, ``get_encoding_info``, and ``Encoder``) no longer treat multibase prefix bytes as encoding names. Prefix codes continue to be resolved via ``get_codec`` / ``decode``. (`#44 <https://github.com/multiformats/py-multibase/issues/44>`__)
+
+
+Improved Documentation
+~~~~~~~~~~~~~~~~~~~~~~
+
+- Aligned local documentation builds with Read the Docs by using ``python -m sphinx.ext.apidoc`` for the ``multibase`` package. (`#31 <https://github.com/multiformats/py-multibase/issues/31>`__)
+
+
+Features
+~~~~~~~~
+
+- Add ``encoder_by_name()``, which constructs an :class:`~multibase.Encoder` from an encoding name or its single-character prefix, and export it from the ``multibase`` package. (`#39 <https://github.com/multiformats/py-multibase/issues/39>`__)
+- Add a read-only ``Encoder.code`` property exposing the multibase prefix byte of an encoder's encoding. (`#47 <https://github.com/multiformats/py-multibase/issues/47>`__)
+
+
+Internal Changes - for py-multibase Contributors
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Add ``pytest-benchmark`` benchmarks for encoding, decoding and round-tripping every supported encoding. (`#42 <https://github.com/multiformats/py-multibase/issues/42>`__)
+- Add Hypothesis-based fuzz tests that exercise the decoder with arbitrary binary and text input. (`#43 <https://github.com/multiformats/py-multibase/issues/43>`__)
+- Remove the unused ``six`` runtime dependency; ``py-multibase`` requires Python 3.10 or newer. (`#45 <https://github.com/multiformats/py-multibase/issues/45>`__)
+- Renamed converter parameters that shadowed the builtin ``bytes`` and corrected the Base16 decode comment (no behavior change). (`#62 <https://github.com/multiformats/py-multibase/issues/62>`__)
+- Adopt pinned ``pyrefly==1.5.0`` typechecking alongside mypy for tooling parity with sibling packages. (`#64 <https://github.com/multiformats/py-multibase/issues/64>`__)
+
+
+Miscellaneous Changes
+~~~~~~~~~~~~~~~~~~~~~
+
+- `#41 <https://github.com/multiformats/py-multibase/issues/41>`__, `#46 <https://github.com/multiformats/py-multibase/issues/46>`__
+
+
 py-multibase v2.0.0 (2025-12-17)
 --------------------------------
 
